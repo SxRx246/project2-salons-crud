@@ -6,6 +6,8 @@ const morgan = require("morgan")
 const methodOverride = require("method-override")
 const conntectToDB = require('./config/db')
 const authRoutes = require("./routes/auth.routes")
+const salonRoutes = require("./routes/salon.routes")
+
 const session = require("express-session")
 const passUserToView = require('./middleware/passUserToView')
 const isSignedIn = require("./middleware/isSignedIn")
@@ -31,7 +33,7 @@ app.use(
 ); // uses the secret session code in the .env to encrypt the token
 app.use(passUserToView) //used to set the res.locals.user for each ejs page
 app.set("view engine", "ejs") //is more specific on which view engine we are using
-
+// app.set('views', path.join(__dirname, 'views')); 
 
 // connect to database
 conntectToDB()
@@ -43,11 +45,13 @@ conntectToDB()
 
 
 
-
-
 app.use("/auth",authRoutes)
 app.use(isSignedIn) //all your protected routes go below this middleware
 // Routes go here
+
+app.use("/salons",salonRoutes)
+
+
 
 
 

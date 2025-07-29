@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>All Salons</h1>
+
+    <% allSalons.forEach((salon)=>{ %>
+        <div>
+            <h2>Name: <%= salon.name %></h2>
+
+            <!-- <p>Staffs:</p> -->
+
+            <a href="/salons/<%= salon._id %>">See salon Details</a>
+        </div>
+        <% }) %>
+
+        <a href="/salons/new">Add New Salon</a>
+
+</body>
+
+</html>

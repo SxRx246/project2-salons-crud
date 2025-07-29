@@ -9,7 +9,12 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:[true, "password is required"]
-    }
+    },
+    // typeOfUser:{
+    //     type:String,
+    //     enum:["owner", "staff", "customer"],
+    //     required: true
+    // }
 })
 
 const User = mongoose.model("User",userSchema)
