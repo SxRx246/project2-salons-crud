@@ -8,16 +8,16 @@
 </head>
 
 <body>
-    <h1>Add New Salon</h1>
+    <h1>Edit Salon Details</h1>
 
         <div>
-    <form action="/salons" method="post">
+    <form action="/salons/<%= foundSalon._id %>?_method=PUT" method="post">
         <label for="name">Salon Name:</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" value="<%= foundSalon.name%>">
 
         <!-- I can change it later on to a select with different cities, and if it is not thei, choose other and write the location -->
         <label for="location">Salon Location:</label>
-        <input type="text" name="location" id="location">
+        <input type="text" name="location" id="location" value="<%= foundSalon.location%>">
 
 
         <label for="openingTime">Openning Time:</label>
@@ -28,6 +28,7 @@
             min="00:00"
             max="24:00"
             required 
+            value="<%= foundSalon.openingTime%>"
         />
 
 
@@ -39,10 +40,11 @@
             min="00:00"
             max="24:00"
             required 
+            value="<%= foundSalon.closingTime%>"
         />
 
         <label for="workingDays">Working Days</label>
-        <select name="workingDays" id="workingDays" multiple>
+        <select name="workingDays" id="workingDays" multiple value="<%= foundSalon.workingDays%>">
             <option value="Sun">Sun</option>
             <option value="Mon">Mon</option>
             <option value="Tue">Tue</option>
@@ -52,7 +54,7 @@
             <option value="Sat">Sat</option>
         </select>
 
-        <button type="submit">Add Salon</button>
+        <button type="submit">Save</button>
     </form>
         </div>
 

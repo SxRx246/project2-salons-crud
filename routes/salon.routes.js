@@ -92,7 +92,7 @@ router.get("/:id",async(req,res)=>{
 router.get("/:id/edit",async(req,res)=>{
     try{
         const foundSalon = await Salon.findById(req.params.id)
-        res.render("edit.ejs",{foundSalon})
+        res.render("salons/edit.ejs",{foundSalon})
     }
     catch(error){
         console.log(error)
@@ -102,7 +102,7 @@ router.get("/:id/edit",async(req,res)=>{
 
 router.put("/:id",async(req,res)=>{
     await  Salon.findByIdAndUpdate(req.params.id, req.body)
-    res.redirect("/salons")
+    res.redirect("/salons/"+req.params.id)
 })
 
 
