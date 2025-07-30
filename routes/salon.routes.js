@@ -41,21 +41,6 @@ router.post("/",async(req,res)=>{
 
 
 
-
-
-
-// router.get("/",async(req,res)=>{
-//     try{
-//         const allBooks = await Book.find().populate("author")
-//         console.log(allBooks)
-//         res.render("books/all-books.ejs",{allBooks: allBooks})
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
-
-
 router.get("/:id",async(req,res)=>{
     try{
         const foundSalon = await Salon.findById(req.params.id)
@@ -67,32 +52,23 @@ router.get("/:id",async(req,res)=>{
     }
 })
 
-// 1. get the book by the id
-// 2. add the new comment to the book.comments array
-// 3. save the book with the updated comment
-// 4. redirect back to the books details
-
-// router.post("/:bookId/comment",async(req,res)=>{
-//     try{
-//         const foundBook = await Book.findById(req.params.bookId)
-//         console.log(foundBook)
-//         foundBook.comments.push(req.body)
-//         foundBook.save()
-//         res.redirect(`/books/${foundBook._id}`)
-
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
 
 
 // UPDATE
 
 router.get("/:id/edit",async(req,res)=>{
     try{
-        const foundSalon = await Salon.findById(req.params.id)
-        res.render("salons/edit.ejs",{foundSalon})
+                const foundSalon = await Salon.findById(req.params.id)
+
+        const days =["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+        const selectedDays = days.map((day)=>{
+            if(foundSalon.workingDays.includes(day)){return {day,selected:true}}
+            else{return {day,selected:null}}
+        })
+        console.log(selectedDays)
+
+        res.render("salons/edit.ejs",{foundSalon,selectedDays})
     }
     catch(error){
         console.log(error)
@@ -103,6 +79,18 @@ router.get("/:id/edit",async(req,res)=>{
 router.put("/:id",async(req,res)=>{
     await  Salon.findByIdAndUpdate(req.params.id, req.body)
     res.redirect("/salons/"+req.params.id)
+})
+
+
+router.delete("/:id", async (req,res)=>{
+    console.log(req.params)
+    try{
+        await Salon.findByIdAndDelete(req.params.id)
+        res.redirect("/salons")
+    }
+    catch(error){
+        console.log(error)
+    }
 })
 
 

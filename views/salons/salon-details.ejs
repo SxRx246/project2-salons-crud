@@ -19,7 +19,9 @@
 
 
         <a href="/salons/<%= foundSalon._id %>/edit">Edit Details</a>
-        <a href="/salons/<%= foundSalon._id %>/edit">Delete Salon</a>
+        
+        <form action="/salons/<%=foundSalon._id%>?_method=DELETE" method="post">
+        <button type="submit">Delete Salon</button>
 
         <a href="/salons">Back to salons</a>
 

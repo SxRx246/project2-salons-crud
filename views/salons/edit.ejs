@@ -44,7 +44,7 @@
         />
 
         <label for="workingDays">Working Days</label>
-        <select name="workingDays" id="workingDays" multiple value="<%= foundSalon.workingDays%>">
+        <!-- <select name="workingDays" id="workingDays" multiple>
             <option value="Sun">Sun</option>
             <option value="Mon">Mon</option>
             <option value="Tue">Tue</option>
@@ -52,6 +52,12 @@
             <option value="Thu">Thu</option>
             <option value="Fri">Fri</option>
             <option value="Sat">Sat</option>
+        </select> -->
+
+        <select name="workingDays" id="workingDays" multiple>
+            <% selectedDays.forEach((oneDay)=>{%>
+                <option <% if(oneDay.selected){ %>selected <%} %> value="<%= oneDay.day %>"><%= oneDay.day %></option>
+            <%})  %>
         </select>
 
         <button type="submit">Save</button>

@@ -22,7 +22,11 @@ const salonSchema = new mongoose.Schema({
     workingDays:{
         type: [String],
         enum:["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-    }
+    },
+    Services:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Service"
+    }]
     // ,
     // staffs:[{    
     //     type: mongoose.Schema.Types.ObjectId,
