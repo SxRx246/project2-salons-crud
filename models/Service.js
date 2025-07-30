@@ -15,12 +15,16 @@ const serviceSchema = new mongoose.Schema({
     description:{
         type:String,
         required:true
-    },
+    }
+    ,
     salon:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Salon",
         required:true
     }
+
+
+
     // ,
     // staffs:[{    
     //     type: mongoose.Schema.Types.ObjectId,

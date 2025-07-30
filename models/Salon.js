@@ -23,7 +23,7 @@ const salonSchema = new mongoose.Schema({
         type: [String],
         enum:["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     },
-    Services:[{
+    services:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Service"
     }]

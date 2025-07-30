@@ -4,27 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Salon Details</title>
 </head>
 
 <body>
     <h1>Salon Details</h1>
-        <div>
-            <h2>Name: <%= foundSalon.name %></h2>
-            <p>Location: <%= foundSalon.location %></p>
-            <p>Opening Time: <%= foundSalon.openingTime %></p>
-            <p>Closign Time: <%= foundSalon.closingTime %></p>
-            <p>Working Days: <%= foundSalon.workingDays %></p>
-        </div>
-
-
-        <a href="/salons/<%= foundSalon._id %>/edit">Edit Details</a>
+    <div>
+        <h2>Name: <%= foundSalon.name %></h2>
+        <p>Location: <%= foundSalon.location %></p>
+        <p>Opening Time: <%= foundSalon.openingTime %></p>
+        <p>Closing Time: <%= foundSalon.closingTime %></p>
+        <p>Working Days: <%= foundSalon.workingDays.join(', ') %></p>
         
-        <form action="/salons/<%=foundSalon._id%>?_method=DELETE" method="post">
+        <% if (foundSalon.updatedAt) { %>
+            <p>Last Updated: <%= foundSalon.updatedAt.toLocaleString() %></p>
+        <% } %>
+        
+        <h3>Services:</h3>
+        <ul>
+            <% 
+                if (foundSalon.services && foundSalon.services.length > 0) { %>
+                <% foundSalon.services.forEach(service => { %>
+                    <li>
+                        <strong><%= service.name %></strong> - $<%= service.price %>
+                        <p>Description: <%= service.description %></p>
+                    </li>
+                <% }) %>
+            <% } else { %>
+                <li>No services available.</li>
+            <% } %>
+        </ul>
+    </div>
+
+    <a href="/salons/<%= foundSalon._id %>/edit">Edit Details</a>
+    
+    <form action="/salons/<%= foundSalon._id %>?_method=DELETE" method="post">
         <button type="submit">Delete Salon</button>
+    </form>
 
-        <a href="/salons">Back to salons</a>
-
+    <a href="/salons">Back to salons</a>
 </body>
 
 </html>

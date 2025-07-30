@@ -13,11 +13,6 @@ const passUserToView = require('./middleware/passUserToView')
 const isSignedIn = require("./middleware/isSignedIn")
 
 
-const addService = document.getElementById('addService');
-
-
-
-
 
 
 // Middleware

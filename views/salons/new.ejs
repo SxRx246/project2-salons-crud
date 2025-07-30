@@ -5,12 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script>
+        function addService() {
+            const serviceSection = document.getElementById('serviceSection');
+            const serviceDiv = document.createElement('div');
+            serviceDiv.className = 'service';
+
+            serviceDiv.innerHTML = `
+                <label>Service Name:</label>
+                <input type="text" name="serviceName" required>
+                <label>Service Price:</label>
+                <input type="number" name="servicePrice" required>
+                <label>Description:</label>
+                <input type="text" name="serviceDescription" required>
+            `;
+
+            serviceSection.appendChild(serviceDiv);
+        }
+    </script>
 </head>
+
 
 <body>
     <h1>Add New Salon</h1>
 
-        <div>
     <form action="/salons" method="post">
         <label for="name">Salon Name:</label>
         <input type="text" name="name" id="name">
@@ -51,14 +70,15 @@
             <option value="Fri">Fri</option>
             <option value="Sat">Sat</option>
         </select>
-
-        <label for="name">Salon Name:</label>
-        <input type="text" name="name" id="name">
-
-        <button id="addService"> Add Service </button>
-        <button type="submit">Add Salon</button>
-    </form>
+        <div id="serviceSection">
+            
         </div>
+            <button type="button" onclick="addService()">Add Service</button>
+            <button type="submit" value="addSalon">Add Salon</button>
+    </form>
+    
+
+        
 
         <!-- <button action="add-salon.ejs">Add New Salon</button> -->
 </body>
