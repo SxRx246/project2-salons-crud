@@ -229,6 +229,21 @@ router.get("/:salonID/:serviceID", async (req, res) => {
         console.log(error);
         res.status(500).send("Error deleting salon");
     }
+})
+
+// Deleting a Staff
+router.get("/:salonID/:staffID/DeleteStaff", async (req, res) => {
+    try {
+        // console.log("this is the salon id"+req.params.salonId)
+
+        await Staff.findByIdAndDelete(req.params.staffID);
+        // await Service.deleteMany({ salon: req.params.id }); // Optionally delete services associated with the salon
+        res.redirect(`/salons/${req.params.salonID}`);
+        // res.redirect(`/salons`);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error deleting salon");
+    }
 });
 
 
