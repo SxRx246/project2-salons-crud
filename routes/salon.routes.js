@@ -330,39 +330,133 @@ router.get("/:id/edit", async (req, res) => {
         res.status(500).send("Error fetching salon details");
     }
 });
+// router.put("/:id", async (req, res) => {
+//     try {
+//         // Update the salon details
+//         const updatedSalon = await Salon.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+//         // Handle services
+//         const { serviceName, servicePrice, serviceDescription } = req.body;
+
+//         // Ensure service arrays
+//         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
+//         const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice];
+//         const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription];
+
+//         // Clear existing services
+//         await Service.deleteMany({ salon: updatedSalon._id });
+
+//         // Save new services
+//         for (let i = 0; i < serviceNames.length; i++) {
+//             const name = serviceNames[i];
+//             const price = servicePrices[i];
+//             const description = serviceDescriptions[i];
+
+//             // Only save if name, price, and description are provided
+//             if (name && price && description) {
+//                 const service = new Service({
+//                     name,
+//                     price,
+//                     description,
+//                     salon: updatedSalon._id,
+//                 });
+
+//                 await service.save();
+//                 updatedSalon.services.push(service._id); // Add service ID to the salon's services
+//             }
+//         }
+
+//         await updatedSalon.save(); // Save the updated salon with the new services
+//         res.redirect(`/salons/${updatedSalon._id}`);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send("Error updating salon or services");
+//     }
+// });
+
+// router.put("/:id", async (req, res) => {
+//     try {
+//         console.log("REQ.bODY",req.body)
+//         // Update the salon details
+//         const updatedSalon = await Salon.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+//         // Handle services
+//         const { serviceName, servicePrice, serviceDescription, serviceId } = req.body;
+
+//         // Ensure service arrays
+//         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
+//         const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice];
+//         const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription];
+//         const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId];
+
+//         // Update or create services
+//         for (let i = 0; i < serviceNames.length; i++) {
+//             const name = serviceNames[i];
+//             const price = servicePrices[i];
+//             const description = serviceDescriptions[i];
+//             const id = serviceIds[i];
+
+//             // Update existing service or create new service
+//             if (id) {
+//                 // Update existing service
+//                 await Service.findByIdAndUpdate(id, { name, price, description });
+//             } else if (name && price && description) {
+//                 // Save new service if name, price, and description are provided
+//                 const service = new Service({
+//                     name,
+//                     price,
+//                     description,
+//                     salon: updatedSalon._id,
+//                 });
+//                 await service.save();
+//                 updatedSalon.services.push(service._id); // Add service ID to the salon's services
+//             }
+//         }
+
+//         await updatedSalon.save(); // Save the updated salon with the new services
+//         res.redirect(`/salons/${updatedSalon._id}`);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send("Error updating salon or services");
+//     }
+// });
 router.put("/:id", async (req, res) => {
     try {
+        console.log("REQ.bODY", req.body);
+
         // Update the salon details
         const updatedSalon = await Salon.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
         // Handle services
-        const { serviceName, servicePrice, serviceDescription } = req.body;
+        const { serviceName, servicePrice, serviceDescription, serviceId } = req.body;
 
         // Ensure service arrays
         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
-        const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice];
-        const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription];
+        const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice]; // Ensure this is an array
+        const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription]; // Ensure this is an array
+        const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId]; // Ensure this is an array
 
-        // Clear existing services
-        await Service.deleteMany({ salon: updatedSalon._id });
-
-        // Save new services
+        // Update existing services and create new services
         for (let i = 0; i < serviceNames.length; i++) {
             const name = serviceNames[i];
             const price = servicePrices[i];
             const description = serviceDescriptions[i];
+            const id = serviceIds[i];
 
-            // Only save if name, price, and description are provided
-            if (name && price && description) {
-                const service = new Service({
+            if (id) {
+                // Update existing service
+                await Service.findByIdAndUpdate(id, { name, price, description });
+                // await Service.findByIdAndUpdate(id, { serviceName, servicePrice, serviceDescription });
+            } else if (name && price && description) {
+                // Create a new service if name, price, and description are provided
+                const newService = new Service({
                     name,
                     price,
                     description,
-                    salon: updatedSalon._id,
+                    salon: updatedSalon._id, // Associate with the salon
                 });
-
-                await service.save();
-                updatedSalon.services.push(service._id); // Add service ID to the salon's services
+                await newService.save();
+                updatedSalon.services.push(newService._id); // Add the new service ID to the salon's services
             }
         }
 

@@ -15,9 +15,9 @@
                 <label>Service Name:</label>
                 <input type="text" name="serviceName" required>
                 <label>Service Price:</label>
-                <input type="number" name="price" required>
+                <input type="number" name="servicePrice" required>
                 <label>Description:</label>
-                <input type="text" name="description" required>
+                <input type="text" name="serviceDescription" required>
             `;
 
             serviceSection.appendChild(serviceDiv);
@@ -78,18 +78,19 @@
             <%})  %>
         </select>
 
-        <div id="serviceSection">
-            <% foundSalon.services.forEach(service => { %>
-                <div class="service">
-                    <label>Service Name:</label>
-                    <input type="text" name="serviceName" value="<%= service.name %>" required>
-                    <label>Service Price:</label>
-                    <input type="number" name="price" value="<%= service.price %>" required>
-                    <label>Description:</label>
-                    <input type="text" name="description" value="<%= service.description %>" required>
-                </div>
-            <% }) %>
+<div id="serviceSection">
+    <% foundSalon.services.forEach(service => { %>
+        <div class="service">
+            <label>Service Name:</label>
+            <input type="text" name="serviceName" value="<%= service.name %>" required>
+            <label>Service Price:</label>
+            <input type="number" name="servicePrice" value="<%= service.price %>" required>
+            <label>Description:</label>
+            <input type="text" name="serviceDescription" value="<%= service.description %>" required>
+            <input type="hidden" name="serviceId" value="<%= service._id %>"> <!-- Hidden ID field -->
         </div>
+    <% }) %>
+</div>
 
         <button type="button" onclick="addService()">Add Service</button>
         <button type="submit">Update Salon</button>
