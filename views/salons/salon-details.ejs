@@ -14,11 +14,8 @@
         <p>Location: <%= foundSalon.location %></p>
         <p>Opening Time: <%= foundSalon.openingTime %></p>
         <p>Closing Time: <%= foundSalon.closingTime %></p>
-        <p>Working Days: <%= foundSalon.workingDays.join(', ') %></p>
+        <p>Working Days: <%= foundSalon.workingDays%></p>
         
-        <% if (foundSalon.updatedAt) { %>
-            <p>Last Updated: <%= foundSalon.updatedAt.toLocaleString() %></p>
-        <% } %>
         
         <h3>Services:</h3>
         <ul>

@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Salon</title>
-
-    <script>
+    <title>Document</title>
+        <script>
         function addService() {
             const serviceSection = document.getElementById('serviceSection');
             const serviceDiv = document.createElement('div');
@@ -14,11 +13,11 @@
 
             serviceDiv.innerHTML = `
                 <label>Service Name:</label>
-                <input type="text" name="serviceName[]" required>
+                <input type="text" name="serviceName" required>
                 <label>Service Price:</label>
-                <input type="number" name="servicePrice[]" required>
+                <input type="number" name="price" required>
                 <label>Description:</label>
-                <input type="text" name="serviceDescription[]" required>
+                <input type="text" name="description" required>
             `;
 
             serviceSection.appendChild(serviceDiv);
@@ -27,41 +26,67 @@
 </head>
 
 <body>
-    <h1>Edit Salon</h1>
+    <h1>Edit Salon Details</h1>
 
+        <div>
     <form action="/salons/<%= foundSalon._id %>?_method=PUT" method="post">
         <label for="name">Salon Name:</label>
-        <input type="text" name="name" id="name" value="<%= foundSalon.name %>" required>
+        <input type="text" name="name" id="name" value="<%= foundSalon.name%>">
 
+        <!-- I can change it later on to a select with different cities, and if it is not thei, choose other and write the location -->
         <label for="location">Salon Location:</label>
-        <input type="text" name="location" id="location" value="<%= foundSalon.location %>" required>
+        <input type="text" name="location" id="location" value="<%= foundSalon.location%>">
 
-        <label for="openingTime">Opening Time:</label>
-        <input type="time" id="openingTime" name="openingTime" value="<%= foundSalon.openingTime %>" required />
+
+        <label for="openingTime">Openning Time:</label>
+        <input
+            type="time"
+            id="openingTime"
+            name="openingTime"
+            min="00:00"
+            max="24:00"
+            required 
+            value="<%= foundSalon.openingTime%>"
+        />
+
 
         <label for="closingTime">Closing Time:</label>
-        <input type="time" id="closingTime" name="closingTime" value="<%= foundSalon.closingTime %>" required />
+        <input
+            type="time"
+            id="closingTime"
+            name="closingTime"
+            min="00:00"
+            max="24:00"
+            required 
+            value="<%= foundSalon.closingTime%>"
+        />
 
         <label for="workingDays">Working Days</label>
-        <select name="workingDays" id="workingDays" multiple required>
-            <option value="Sun" <%= foundSalon.workingDays.includes('Sun') ? 'selected' : '' %>>Sun</option>
-            <option value="Mon" <%= foundSalon.workingDays.includes('Mon') ? 'selected' : '' %>>Mon</option>
-            <option value="Tue" <%= foundSalon.workingDays.includes('Tue') ? 'selected' : '' %>>Tue</option>
-            <option value="Wed" <%= foundSalon.workingDays.includes('Wed') ? 'selected' : '' %>>Wed</option>
-            <option value="Thu" <%= foundSalon.workingDays.includes('Thu') ? 'selected' : '' %>>Thu</option>
-            <option value="Fri" <%= foundSalon.workingDays.includes('Fri') ? 'selected' : '' %>>Fri</option>
-            <option value="Sat" <%= foundSalon.workingDays.includes('Sat') ? 'selected' : '' %>>Sat</option>
+        <!-- <select name="workingDays" id="workingDays" multiple>
+            <option value="Sun">Sun</option>
+            <option value="Mon">Mon</option>
+            <option value="Tue">Tue</option>
+            <option value="Wed">Wed</option>
+            <option value="Thu">Thu</option>
+            <option value="Fri">Fri</option>
+            <option value="Sat">Sat</option>
+        </select> -->
+
+        <select name="workingDays" id="workingDays" multiple>
+            <% selectedDays.forEach((oneDay)=>{%>
+                <option <% if(oneDay.selected){ %>selected <%} %> value="<%= oneDay.day %>"><%= oneDay.day %></option>
+            <%})  %>
         </select>
 
         <div id="serviceSection">
             <% foundSalon.services.forEach(service => { %>
                 <div class="service">
                     <label>Service Name:</label>
-                    <input type="text" name="serviceName[]" value="<%= service.name %>" required>
+                    <input type="text" name="serviceName" value="<%= service.name %>" required>
                     <label>Service Price:</label>
-                    <input type="number" name="servicePrice[]" value="<%= service.price %>" required>
+                    <input type="number" name="price" value="<%= service.price %>" required>
                     <label>Description:</label>
-                    <input type="text" name="serviceDescription[]" value="<%= service.description %>" required>
+                    <input type="text" name="description" value="<%= service.description %>" required>
                 </div>
             <% }) %>
         </div>
@@ -71,6 +96,10 @@
     </form>
     
     <a href="/salons">Back to salons</a>
+
+        </div>
+
+        <!-- <button action="add-salon.ejs">Add New Salon</button> -->
 </body>
 
 </html>
