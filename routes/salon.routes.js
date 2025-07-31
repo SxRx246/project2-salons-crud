@@ -2,6 +2,7 @@
 const Salon = require("../models/Salon")
 const User = require("../models/User")
 const Service = require("../models/Service")
+const Staff = require("../models/Staff")
 
 // import the router
 const router = require("express").Router()
@@ -33,7 +34,8 @@ router.get("/new",async(req,res)=>{
 
 
 router.post("/", async (req, res) => {
-    const { name, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription } = req.body;
+    console.log("all data "+req.body)
+    const { name, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription , staffName, staffSpeciality, yearsOfExperience} = req.body;
 
     try {
         // Create the salon
@@ -44,22 +46,6 @@ router.post("/", async (req, res) => {
             closingTime,
             workingDays
         });
-
-        // // Map services
-        // const services = serviceName.map((name, index) => ({
-        //     name,
-        //     price: servicePrice[index],
-        //     description: serviceDescription[index],
-        //     salon: newSalon._id // Associate each service with the newly created salon
-        // }));
-
-        // // Save each service
-        // for (const serviceData of services) {
-        //     const service = new Service(serviceData); // Create a new Service instance
-        //     await service.save(); // Save the service
-        //     newSalon.services.push(service._id); // Add service ID to the salon's services
-        // }
-
 
         // Ensure serviceName, price, and description are arrays
         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
@@ -88,6 +74,33 @@ router.post("/", async (req, res) => {
 
     }
 
+    // Ensure serviceName, price, and description are arrays
+    const staffNames = Array.isArray(staffName) ? staffName : [staffName];
+    const staffSpecialitys = Array.isArray(staffSpeciality) ? staffSpeciality : [staffSpeciality];
+    const yearsOfExperiences = Array.isArray(yearsOfExperience) ? yearsOfExperience : [yearsOfExperience];
+
+        // Check if any services are provided
+    if (staffNames.length === 0 || staffNames.every(name => !name)) {
+        // No services provided, handle accordingly
+        console.log("No services added.");
+    } else {
+        // Map services
+        const staffs = staffNames.map((name, index) => ({
+            name,
+            speciality: staffSpecialitys[index],
+            yearsOfExperience: yearsOfExperiences[index],
+            salon: newSalon._id // Associate each service with the newly created salon
+        }));
+
+        // Save each service
+        for (const staffData of staffs) {
+            const staff = new Staff(staffData); // Create a new Service instance
+            await staff.save(); // Save the service
+            newSalon.staffs.push(staff._id); // Add service ID to the salon's services
+        }
+
+    }
+
         await newSalon.save(); // Save the updated salon with the services
 
         const foundSalon = {
@@ -96,7 +109,8 @@ router.post("/", async (req, res) => {
             openingTime,
             closingTime,
             workingDays,
-            services: serviceNames.length === 0 ? [] : [] // Services will be an empty array if none
+            services: serviceNames.length === 0 ? [] : [] ,// Services will be an empty array if none
+            staffs: staffNames.length === 0 ? [] : [] // Services will be an empty array if none
         }
         // Render the salon details page
         res.render("salons/salon-details.ejs", {
@@ -110,161 +124,9 @@ router.post("/", async (req, res) => {
 
 
 
-// router.post("/", async (req, res) => {
-//     console.log("boooooooody:  "+ req.body); // Log the request body for debugging
-//     const { name, location, openingTime, closingTime, workingDays, serviceName, price, description } = req.body;
-
-//     // Ensure serviceName, price, and description are arrays
-//     if (!Array.isArray(serviceName) || !Array.isArray(price) || !Array.isArray(description)) {
-//         return res.status(400).send("Service data is missing or incorrectly formatted");
-//     }
-
-//     try {
-
-//         const days = Array.isArray(workingDays) ? workingDays : [workingDays];
-
-//         // Create the salon
-//         const newSalon = await Salon.create({
-//             name,
-//             location,
-//             openingTime,
-//             closingTime,
-//             workingDays: days
-//         });
-
-//         // // Map services
-//         // const services = serviceName.map((name, index) => ({
-//         //     name,
-//         //     price: price[index],
-//         //     description: description[index],
-//         //     salon: newSalon._id // Associate each service with the newly created salon
-//         // }));
-
-//                 // Prepare services array
-//         // const services = Array.isArray(serviceName)
-//         //     ? serviceName.map((name, index) => ({
-//         //           name,
-//         //           price: price[index],
-//         //           description: description[index],
-//         //           salon: newSalon._id
-//         //       }))
-//         //     : [{
-//         //           name: serviceName,
-//         //           price: price,
-//         //           description: description,
-//         //           salon: newSalon._id
-//         //       }];
-
-//     //     const services = Array.isArray(serviceName)
-//     // ? serviceName.map((name, index) => ({
-//     //       serviceName: name, // ✅ Corrected
-//     //       price: price[index],
-//     //       description: description[index],
-//     //       salon: newSalon._id
-//     //   }))
-//     // : [{
-//     //       serviceName: serviceName, // ✅ Corrected
-//     //       price: price,
-//     //       description: description,
-//     //       salon: newSalon._id
-//     //   }];
-
-//             const services = serviceName.map((name, index) => ({
-//             serviceName: name,
-//             price: price[index],
-//             description: description[index],
-//             salon: newSalon._id
-//         }));
-
-//         // Save each service
-//         for (const serviceData of services) {
-//             if (!serviceData.serviceName) {
-//                 return res.status(400).send("Service name cannot be empty.");
-//             }
-
-//             const service = new Service(serviceData);
-//             await service.save();
-//             newSalon.services.push(service._id);
-//             console.log("Service data: "+ serviceData)
-//         }
-        
-//         console.log("new salon:"+newSalon);
-//         await newSalon.save();
-//         res.redirect(`/salons/${newSalon._id}`);
-
-//         // Render the salon details page
-//         res.render("salon-details.ejs", {
-//             name,
-//             location,
-//             openingTime,
-//             closingTime,
-//             workingDays,
-//             services
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send("Error creating salon or services");
-//     }
-// });
-
-
-// router.post("/salons", async (req, res) => {
-//     try {
-//         const {
-//             name,
-//             location,
-//             openingTime,
-//             closingTime,
-//             workingDays,
-//             serviceName,
-//             price,
-//             description
-//         } = req.body;
-
-//         // 1. Create the new service
-//         const newService = new Service({
-//             name: serviceName,
-//             price,
-//             description
-//         });
-//         await newService.save();
-
-//         // 2. Create the salon and reference the service
-//         const newSalon = new Salon({
-//             name,
-//             location,
-//             openingTime,
-//             closingTime,
-//             workingDays: Array.isArray(workingDays) ? workingDays : [workingDays],
-//             services: [newService._id]
-//         });
-//         await newSalon.save();
-
-//         // res.render("/salons"); // or wherever you list salons
-//         // res.rend/er("salons/all-salons.ejs",{allSalons})
-//         res.render("salon-details.ejs", {
-//             name,
-//             location,
-//             openingTime,
-//             closingTime,
-//             workingDays,
-//             services
-//         });
-
-//     } catch (err) {
-//         console.error("Error creating salon:", err);
-//         res.status(500).send("Internal Server Error");
-//     }
-// });
-
-
-
-
-
-
 router.get("/:id",async(req,res)=>{
     try{
-        const foundSalon = await Salon.findById(req.params.id).populate("services")
+        const foundSalon = await Salon.findById(req.params.id).populate("services").populate("staffs")
         console.log(foundSalon.services.length)
         res.render("salons/salon-details.ejs",{foundSalon})
     }
@@ -276,45 +138,6 @@ router.get("/:id",async(req,res)=>{
 
 
 // UPDATE
-
-// router.get("/:id/edit",async(req,res)=>{
-//     try{
-//                 const foundSalon = await Salon.findById(req.params.id).populate("services");
-
-//         const days =["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
-//         const selectedDays = days.map((day)=>{
-//             if(foundSalon.workingDays.includes(day)){return {day,selected:true}}
-//             else{return {day,selected:null}}
-//         })
-//         console.log(selectedDays)
-
-//         res.render("salons/edit.ejs",{foundSalon,selectedDays})
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
-
-
-// router.put("/:id",async(req,res)=>{
-//     await  Salon.findByIdAndUpdate(req.params.id, req.body)
-//     res.redirect("/salons/"+req.params.id)
-// })
-
-
-// router.delete("/:id", async (req,res)=>{
-//     console.log(req.params)
-//     try{
-//         await Salon.findByIdAndDelete(req.params.id)
-//         res.redirect("/salons")
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
-
-
 router.get("/:id/edit", async (req, res) => {
     try {
         const foundSalon = await Salon.findById(req.params.id).populate("services");
@@ -330,6 +153,8 @@ router.get("/:id/edit", async (req, res) => {
         res.status(500).send("Error fetching salon details");
     }
 });
+
+
 
 router.put("/:id", async (req, res) => {
     try {
@@ -379,6 +204,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+// Deleting a Salon
 router.delete("/:id", async (req, res) => {
     try {
         await Salon.findByIdAndDelete(req.params.id);
@@ -390,6 +216,7 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
+// Deleting a Service
 router.get("/:salonID/:serviceID", async (req, res) => {
     try {
         // console.log("this is the salon id"+req.params.salonId)
@@ -404,7 +231,6 @@ router.get("/:salonID/:serviceID", async (req, res) => {
     }
 });
 
-// export the router
+
 module.exports = router
 
-// exercise create the author routes

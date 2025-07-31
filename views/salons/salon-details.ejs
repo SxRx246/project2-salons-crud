@@ -20,6 +20,28 @@
         <p>Closing Time: <%= foundSalon.closingTime %></p>
         <p>Working Days: <%= foundSalon.workingDays%></p>
         
+        <h3>Staff:</h3>
+            <ul>
+                <% 
+                    if (foundSalon.staffs && foundSalon.staffs.length > 0) { %>
+                    <% foundSalon.staffs.forEach(staff => { %>
+                        <li>
+                            <strong><%= staff.name %></strong> - $<%= staff.speciality %>
+                            <p>Years of Experience: <%= staff.yearsOfExperience %></p>
+
+                            <a href="/salons/<%= foundSalon._id %>/<%=staff._id%>">
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>        
+                            </a>  
+                            
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <li>No Staff Available.</li>
+                <% } %>
+            </ul>
+        </div>
         
         <h3>Services:</h3>
         <ul>
@@ -39,7 +61,7 @@
                     </li>
                 <% }) %>
             <% } else { %>
-                <li>No services available.</li>
+                <li>No Services Available.</li>
             <% } %>
         </ul>
     </div>

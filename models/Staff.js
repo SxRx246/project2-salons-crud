@@ -24,6 +24,6 @@ const staffSchema = new mongoose.Schema({
 
 })
 
-const Staff = mongoose.model("Service",staffSchema)
+const Staff = mongoose.model("Staff",staffSchema)
 
 module.exports = Staff

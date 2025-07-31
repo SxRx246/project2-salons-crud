@@ -23,6 +23,23 @@
 
             serviceSection.appendChild(serviceDiv);
         }
+
+        function addStaff() {
+            const staffSection = document.getElementById('staffSection');
+            const staffDiv = document.createElement('div');
+            staffDiv.className = 'staff';
+
+            staffDiv.innerHTML = `
+                <label>Staff Name:</label>
+                <input type="text" name="staffName" required>
+                <label>Staff Speciality:</label>
+                <input type="text" name="staffSpeciality" required>
+                <label>yearsOfExperience:</label>
+                <input type="number" name="yearsOfExperience" required>
+            `;
+
+            staffSection.appendChild(staffDiv);
+        }
     </script>
 </head>
 
@@ -70,11 +87,16 @@
             <option value="Fri">Fri</option>
             <option value="Sat">Sat</option>
         </select>
+        <div id="staffSection">
+            
+        </div>
         <div id="serviceSection">
             
         </div>
-            <button type="button" onclick="addService()">Add Service</button>
-            <button type="submit" value="addSalon">Add Salon</button>
+
+        <button type="button" onclick="addService()">Add Service</button>
+        <button type="button" onclick="addStaff()">Add Staff</button>
+        <button type="submit" value="addSalon">Add Salon</button>
     </form>
     
 

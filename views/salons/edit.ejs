@@ -22,6 +22,24 @@
 
             serviceSection.appendChild(serviceDiv);
         }
+
+
+        function addStaff() {
+            const staffSection = document.getElementById('staffSection');
+            const staffDiv = document.createElement('div');
+            staffDiv.className = 'staff';
+
+            staffDiv.innerHTML = `
+                <label>Staff Name:</label>
+                <input type="text" name="staffName" required>
+                <label>Staff Speciality:</label>
+                <input type="text" name="staffSpeciality" required>
+                <label>yearsOfExperience:</label>
+                <input type="number" name="yearsOfExperience" required>
+            `;
+
+            staffSection.appendChild(staffDiv);
+        }
     </script>
 </head>
 
@@ -91,7 +109,20 @@
         </div>
     <% }) %>
 </div>
-
+<div id="staffSection">
+    <% foundSalon.staffs.forEach(staff => { %>
+        <div class="staff">
+                <label>Staff Name:</label>
+                <input type="text" name="staffName" value="<%= staff.name %>" required>
+                <label>Staff Speciality:</label>
+                <input type="text" name="staffSpeciality" value="<%= staff.speciality %>" required>
+                <label>yearsOfExperience:</label>
+                <input type="number" name="yearsOfExperience" value="<%= staff.yearsOfExperience %>" required>
+            <input type="hidden" name="staffId" value="<%= staff._id %>"> <!-- Hidden ID field -->
+        </div>
+    <% }) %>
+</div>
+        <button type="button" onclick="addStaff()">Add Staff</button>
         <button type="button" onclick="addService()">Add Service</button>
         <button type="submit">Update Salon</button>
     </form>
