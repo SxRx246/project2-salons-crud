@@ -126,9 +126,15 @@ router.post("/", async (req, res) => {
 
 router.get("/:id",async(req,res)=>{
     try{
+        const userId = req.session.user?._id || null;
+        let foundUser = null;
+
+        if (userId) {
+            foundUser = await User.findById(userId);
+        }
         const foundSalon = await Salon.findById(req.params.id).populate("services").populate("staffs")
         console.log(foundSalon.services.length)
-        res.render("salons/salon-details.ejs",{foundSalon})
+        res.render("salons/salon-details.ejs",{foundSalon , foundUser})
     }
     catch(error){
         console.log(error)
@@ -140,7 +146,7 @@ router.get("/:id",async(req,res)=>{
 // UPDATE
 router.get("/:id/edit", async (req, res) => {
     try {
-        const foundSalon = await Salon.findById(req.params.id).populate("services");
+        const foundSalon = await Salon.findById(req.params.id).populate("services").populate("staffs");
 
         const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         const selectedDays = days.map((day) => {
@@ -160,19 +166,15 @@ router.put("/:id", async (req, res) => {
     try {
         console.log("REQ.bODY", req.body);
 
-        // Update the salon details
         const updatedSalon = await Salon.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-        // Handle services
-        const { serviceName, servicePrice, serviceDescription, serviceId } = req.body;
+        const { serviceName, servicePrice, serviceDescription, serviceId , staffName, staffSpeciality, yearsOfExperience, staffId} = req.body;
 
-        // Ensure service arrays
         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
         const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice]; // Ensure this is an array
         const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription]; // Ensure this is an array
         const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId]; // Ensure this is an array
 
-        // Update existing services and create new services
         for (let i = 0; i < serviceNames.length; i++) {
             const name = serviceNames[i];
             const price = servicePrices[i];
@@ -180,19 +182,53 @@ router.put("/:id", async (req, res) => {
             const id = serviceIds[i];
 
             if (id) {
-                // Update existing service
                 await Service.findByIdAndUpdate(id, { name, price, description });
-                // await Service.findByIdAndUpdate(id, { serviceName, servicePrice, serviceDescription });
             } else if (name && price && description) {
-                // Create a new service if name, price, and description are provided
                 const newService = new Service({
                     name,
                     price,
                     description,
-                    salon: updatedSalon._id, // Associate with the salon
+                    salon: updatedSalon._id,
                 });
                 await newService.save();
-                updatedSalon.services.push(newService._id); // Add the new service ID to the salon's services
+                updatedSalon.services.push(newService._id); 
+            }
+        }
+
+                // Handle services
+        // const { staffName, staffSpeciality, yearsOfExperience, staffId } = req.body;
+
+        // Ensure service arrays
+        // const staffNames = Array.isArray(staffName) ? staffName : [staffName];
+        // const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice]; // Ensure this is an array
+        // const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription]; // Ensure this is an array
+        // const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId]; // Ensure this is an array
+
+        const staffNames = Array.isArray(staffName) ? staffName : [staffName];
+        const staffSpecialitys = Array.isArray(staffSpeciality) ? staffSpeciality : [staffSpeciality];
+        const yearsOfExperiences = Array.isArray(yearsOfExperience) ? yearsOfExperience : [yearsOfExperience];
+        const staffIds = Array.isArray(staffId) ? staffId : [staffId]; // Ensure this is an array
+
+
+        for (let i = 0; i < staffNames.length; i++) {
+            const name = staffNames[i];
+            const speciality = staffSpecialitys[i];
+            const yearsOfExperience = yearsOfExperiences[i];
+            const id = staffIds[i];
+
+            if (id) {
+                await Staff.findByIdAndUpdate(id, { name, speciality, yearsOfExperience });
+                // await Service.findByIdAndUpdate(id, { serviceName, servicePrice, serviceDescription });
+            } else if (name && speciality && yearsOfExperience) {
+
+                const newStaff = new Staff({
+                    name,
+                    speciality,
+                    yearsOfExperience,
+                    salon: updatedSalon._id, 
+                });
+                await newStaff.save();
+                updatedSalon.staffs.push(newStaff._id); 
             }
         }
 

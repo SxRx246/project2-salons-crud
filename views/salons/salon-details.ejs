@@ -28,12 +28,14 @@
                         <li>
                             <strong><%= staff.name %></strong> - $<%= staff.speciality %>
                             <p>Years of Experience: <%= staff.yearsOfExperience %></p>
-
-                            <a href="/salons/<%= foundSalon._id %>/<%=staff._id%>/DeleteStaff">
-                                <button type="button" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>        
-                            </a>  
+                            
+                            <% if (foundUser.isAdmin){%> 
+                                <a href="/salons/<%= foundSalon._id %>/<%=staff._id%>/DeleteStaff">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>        
+                                </a>  
+                            <% } %>
                             
                         </li>
                     <% }) %>
@@ -51,12 +53,13 @@
                     <li>
                         <strong><%= service.name %></strong> - $<%= service.price %>
                         <p>Description: <%= service.description %></p>
-
-                        <a href="/salons/<%= foundSalon._id %>/<%=service._id%>">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>        
-                        </a>  
+                        <% if (foundUser.isAdmin){%> 
+                            <a href="/salons/<%= foundSalon._id %>/<%=service._id%>">
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>        
+                            </a>  
+                        <% } %>
                         
                     </li>
                 <% }) %>
@@ -65,11 +68,16 @@
             <% } %>
         </ul>
     </div>
-
+     <% if (foundUser.isAdmin){%> 
     <a href="/salons/<%= foundSalon._id %>/edit">Edit Details</a>
     
     <form action="/salons/<%= foundSalon._id %>?_method=DELETE" method="post">
         <button type="submit">Delete Salon</button>
+    <% } 
+    else{ %>
+        
+    <%}
+    %>
     </form>
 
     <a href="/salons">Back to salons</a>

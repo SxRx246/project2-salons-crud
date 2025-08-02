@@ -9,8 +9,15 @@ router.get("/sign-up", (req, res) => {
 
 router.post("/sign-up", async (req, res) => {
     try {
-        const { username, password } = req.body;
+        if (req.body.isAdmin === "on") {
+            req.body.isAdmin = true;
+        } else {
+            req.body.isAdmin = false;
+        }   
+        const { username, password , isAdmin} = req.body;
 
+
+        console.log("This is the one: "+req.body.isAdmin)
         // VALIDATION
         //  Check if all the necessary fields are there
         if (!username || !password) {
@@ -42,12 +49,16 @@ router.post("/sign-up", async (req, res) => {
         }
 
 
+
         // Hash password and create user
         const hashedPassword = bcrypt.hashSync(password, 10);
         const newUser = {
             username,
             password: hashedPassword,
+            isAdmin
         };
+
+
 
         await User.create(newUser);
 
