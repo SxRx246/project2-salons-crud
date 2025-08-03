@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Details</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+</head>
+
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <h1>Salon Details</h1>
+    <div>
+        <h2>Name: <%= foundSalon.name %></h2>
+        <p>Location: <%= foundSalon.location %></p>
+        <p>Opening Time: <%= foundSalon.openingTime %></p>
+        <p>Closing Time: <%= foundSalon.closingTime %></p>
+        <p>Working Days: <%= foundSalon.workingDays%></p>
+        
+        <h3>Staff:</h3>
+            <ul>
+                <% 
+                    if (foundSalon.staffs && foundSalon.staffs.length > 0) { %>
+                    <% foundSalon.staffs.forEach(staff => { %>
+                        <li>
+                            <strong><%= staff.name %></strong> - $<%= staff.speciality %>
+                            <p>Years of Experience: <%= staff.yearsOfExperience %></p>
+                            
+                            <% if (foundUser.isAdmin){%> 
+                                <a href="/salons/<%= foundSalon._id %>/<%=staff._id%>/DeleteStaff">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>        
+                                </a>  
+                            <% } %>
+                            
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <li>No Staff Available.</li>
+                <% } %>
+            </ul>
+        </div>
+        
+        <h3>Services:</h3>
+        <ul>
+            <% 
+                if (foundSalon.services && foundSalon.services.length > 0) { %>
+                <% foundSalon.services.forEach(service => { %>
+                    <li>
+                        <strong><%= service.name %></strong> - $<%= service.price %>
+                        <p>Description: <%= service.description %></p>
+                        <% if (foundUser.isAdmin){%> 
+                            <a href="/salons/<%= foundSalon._id %>/<%=service._id%>">
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>        
+                            </a>  
+                        <% } %>
+                        
+                    </li>
+                <% }) %>
+            <% } else { %>
+                <li>No Services Available.</li>
+            <% } %>
+        </ul>
+    </div>
+     <% if (foundUser.isAdmin){%> 
+    <a href="/salons/<%= foundSalon._id %>/edit">Edit Details</a>
+    
+    <form action="/salons/<%= foundSalon._id %>?_method=DELETE" method="post">
+        <button type="submit">Delete Salon</button>
+    <% } 
+    else{ %>
+
+    <%}
+    %>
+    </form>
+    <% if (!foundUser.isAdmin){%> 
+        <a href="/appointments/new/<%= foundSalon._id%>" class="button">Book New Appointment</a>
+    <% } %>
+    <a href="/salons">Back to salons</a>
+</body>
+
+</html>

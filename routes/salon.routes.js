@@ -21,6 +21,8 @@ router.get("/",async(req,res)=>{
         }
         const allSalons = await Salon.find()
         res.render("salons/all-salons.ejs",{allSalons, foundUser})
+        // res.render("styles/salons.ejs",{allSalons, foundUser})
+        // res.render("public/styles/salons.html",{allSalons, foundUser})
     }
     catch(error){
         console.log(error)
@@ -41,12 +43,13 @@ router.get("/new",async(req,res)=>{
 
 router.post("/", async (req, res) => {
     console.log("all data "+req.body)
-    const { name, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription , staffName, staffSpeciality, yearsOfExperience} = req.body;
+    const { name, description, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription , staffName, staffSpeciality, yearsOfExperience} = req.body;
 
     try {
         // Create the salon
         const newSalon = await Salon.create({
             name,
+            description,
             location,
             openingTime,
             closingTime,
@@ -111,6 +114,7 @@ router.post("/", async (req, res) => {
 
         const foundSalon = {
             name,
+            description,
             location,
             openingTime,
             closingTime,

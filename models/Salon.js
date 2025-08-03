@@ -6,6 +6,10 @@ const salonSchema = new mongoose.Schema({
         required:[true, "name is required" ],
         unique: [true, "name already taken please pick another name"]
     },
+    description:{
+        type:String,
+        required:[true, "description is required" ],
+    },
     location:{
         type:String,
         required:[true, "location is required"]
