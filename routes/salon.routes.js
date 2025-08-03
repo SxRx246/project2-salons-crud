@@ -13,8 +13,14 @@ const router = require("express").Router()
 
 router.get("/",async(req,res)=>{
     try{
+        const userId = req.session.user?._id || null;
+        let foundUser = null;
+
+        if (userId) {
+            foundUser = await User.findById(userId);
+        }
         const allSalons = await Salon.find()
-        res.render("salons/all-salons.ejs",{allSalons})
+        res.render("salons/all-salons.ejs",{allSalons, foundUser})
     }
     catch(error){
         console.log(error)

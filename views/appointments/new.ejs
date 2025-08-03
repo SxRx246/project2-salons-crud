@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+    <%- include('../partials/navbar.ejs') %>
+        <div class="container">
+            <h1 class="page-title">
+                Book New Appointment
+                <% if (selectedSalon) { %>
+                    at "<%= selectedSalon.name %>"
+                        <% }%>
+            </h1>
+
+            <% if (!selectedSalonId) { %>
+                <form method="GET" action="/appointments/new">
+                    <label for="salon">Salon</label>
+                    <select name="salonId" onchange="this.form.submit()" required>
+                        <option value="">Select a salon</option>
+                        <% allSalons.forEach(salon=> { %>
+                            <option value="<%= salon._id %>" <%=selectedSalonId==salon._id ? 'selected' : '' %>>
+                                <%= salon.name %>
+                            </option>
+                            <% }) %>
+                    </select>
+                </form>
+                <% } %>
+
+
+                    <form action="/appointments" method="POST">
+                        <input type="hidden" name="salon" value="<%= selectedSalonId || '' %>" />
+
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" name="customerName" required>
+
+                        <label for="date">Date</label>
+                        <input type="date" name="date" required>
+
+                        <label for="time">Time</label>
+                        <input type="time" name="time" required>
+
+                        <label for="staff">Staff</label>
+                        <select name="staff" required>
+                            <% if (salonStaffs.length> 0) { %>
+                                <% salonStaffs.forEach(staff=> { %>
+                                    <option value="<%= staff._id %>">
+                                        <%= staff.name %> - <%= staff.specialty %>
+                                    </option>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <option disabled selected>No staff available. Please select a salon.
+                                            </option>
+                                            <% } %>
+                        </select>
+
+                        <label for="services">Service</label>
+                        <select name="services" multiple required>
+                            <% if (salonServices.length> 0) { %>
+                                <% salonServices.forEach(service=> { %>
+                                    <option value="<%= service._id %>">
+                                        <%= service.name %>
+                                    </option>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <option disabled selected>No services available. Please select a salon.
+                                            </option>
+                                            <% } %>
+                        </select>
+
+                        <% if (!foundUser.isAdmin){%> 
+                        <button type="submit">Book Appointment</button>
+                        <% } %>
+                    </form>
+                    <a href="/appointments" class="button">Back to Appointments</a>
+                    <a href="/salons/<%= selectedSalonId %>">Back to the salon details</a>
+                    <a href="/salons">Back to salons</a>
+        </div>
+
+
+</body>
+
+</html>

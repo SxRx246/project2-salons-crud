@@ -7,6 +7,7 @@ const methodOverride = require("method-override")
 const conntectToDB = require('./config/db')
 const authRoutes = require("./routes/auth.routes")
 const salonRoutes = require("./routes/salon.routes")
+const appointmentRoutes = require("./routes/appointment.routes")
 
 const session = require("express-session")
 const passUserToView = require('./middleware/passUserToView')
@@ -46,6 +47,7 @@ app.use(isSignedIn) //all your protected routes go below this middleware
 // Routes go here
 
 app.use("/salons",salonRoutes)
+app.use("/appointments",appointmentRoutes)
 
 
 

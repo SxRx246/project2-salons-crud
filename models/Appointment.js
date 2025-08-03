@@ -24,12 +24,12 @@ const appointmentSchema = new mongoose.Schema({
         type:String,
         required: true
     },
-    service:{
+    services:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Service",
         required: true
 
-    },
+    }],
     staff:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Staff",

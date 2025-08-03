@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    <%- include('../partials/navbar.ejs') %>
+
     <h1>Salon Details</h1>
     <div>
         <h2>Name: <%= foundSalon.name %></h2>
@@ -75,11 +77,13 @@
         <button type="submit">Delete Salon</button>
     <% } 
     else{ %>
-        
+
     <%}
     %>
     </form>
-
+    <% if (!foundUser.isAdmin){%> 
+        <a href="/appointments/new/<%= foundSalon._id%>" class="button">Book New Appointment</a>
+    <% } %>
     <a href="/salons">Back to salons</a>
 </body>
 
