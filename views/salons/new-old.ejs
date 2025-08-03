@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function addService() {
+            const serviceSection = document.getElementById('serviceSection');
+            const serviceDiv = document.createElement('div');
+            serviceDiv.className = 'service';
+
+            serviceDiv.innerHTML = `
+                <label>Service Name:</label>
+                <input type="text" name="serviceName" required>
+                <label>Service Price:</label>
+                <input type="number" name="servicePrice" required>
+                <label>Description:</label>
+                <input type="text" name="serviceDescription" required>
+            `;
+
+            serviceSection.appendChild(serviceDiv);
+        }
+
+        function addStaff() {
+            const staffSection = document.getElementById('staffSection');
+            const staffDiv = document.createElement('div');
+            staffDiv.className = 'staff';
+
+            staffDiv.innerHTML = `
+                <label>Staff Name:</label>
+                <input type="text" name="staffName" required>
+                <label>Staff Speciality:</label>
+                <input type="text" name="staffSpeciality" required>
+                <label>yearsOfExperience:</label>
+                <input type="number" name="yearsOfExperience" required>
+            `;
+
+            staffSection.appendChild(staffDiv);
+        }
+    </script>
+</head>
+
+
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+    <h1>Add New Salon</h1>
+
+    <form action="/salons" method="post">
+        <label for="name">Salon Name:</label>
+        <input type="text" name="name" id="name">
+        <label for="description">Salon Description:</label>
+        <input type="text" name="description" id="description">
+
+        <!-- I can change it later on to a select with different cities, and if it is not thei, choose other and write the location -->
+        <label for="location">Salon Location:</label>
+        <input type="text" name="location" id="location">
+
+
+        <label for="openingTime">Openning Time:</label>
+        <input
+            type="time"
+            id="openingTime"
+            name="openingTime"
+            min="00:00"
+            max="24:00"
+            required 
+        />
+
+
+        <label for="closingTime">Closing Time:</label>
+        <input
+            type="time"
+            id="closingTime"
+            name="closingTime"
+            min="00:00"
+            max="24:00"
+            required 
+        />
+
+        <label for="workingDays">Working Days</label>
+        <select name="workingDays" id="workingDays" multiple>
+            <option value="Sun">Sun</option>
+            <option value="Mon">Mon</option>
+            <option value="Tue">Tue</option>
+            <option value="Wed">Wed</option>
+            <option value="Thu">Thu</option>
+            <option value="Fri">Fri</option>
+            <option value="Sat">Sat</option>
+        </select>
+        <div id="staffSection">
+            
+        </div>
+        <div id="serviceSection">
+            
+        </div>
+
+        <button type="button" onclick="addService()">Add Service</button>
+        <button type="button" onclick="addStaff()">Add Staff</button>
+        <button type="submit" value="addSalon">Add Salon</button>
+    </form>
+    
+
+        
+
+        <!-- <button action="add-salon.ejs">Add New Salon</button> -->
+</body>
+
+</html>
