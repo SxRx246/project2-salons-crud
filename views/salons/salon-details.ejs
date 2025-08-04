@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="/styles/css/aos.css">
 
     <link rel="stylesheet" href="/styles/css/style.css">
+
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+
     
   </head>
   <body>
@@ -205,6 +208,14 @@
               <h3 class="text-black h4"><%= service.name %></h3>
               <p><%= service.description %></p>
               <p><strong class="font-weight-bold text-primary">$<%= service.price %></strong></p>
+                                    <% if (foundUser.isAdmin){%> 
+                            <a href="/salons/<%= foundSalon._id %>/<%=service._id%>">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                              </svg>           
+                            </a>  
+                        <% } %>
             </div>
           </div>
                 <% }) %>
@@ -232,20 +243,63 @@
       </div>
     </div>
 
-    <!-- <div class="site-section bg-light">
+        <div class="site-section bg-light">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-6 mb-5">
-            <img src="/styles/images/person_1.jpg" alt="Image" class="img-md-fluid">
-          </div>
-          <div class="col-lg-6 bg-white p-md-5 align-self-center">
-            <h2 class="display-1 text-black line-height-1 site-section-heading mb-4 pb-3">New hairstyle!</h2>
-            <p class="text-black lead"><em>&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique dolorem quisquam laudantium, incidunt id laborum, tempora aliquid labore minus. Nemo maxime, veniam! Fugiat odio nam eveniet ipsam atque, corrupti porro&rdquo;</em></p>
-            <p class="lead text-black">&mdash; <em>Stellla Martin</em></p>
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-7">
+            <h2 class="site-section-heading font-weight-light text-black text-center">Our Staffs</h2>
           </div>
         </div>
+        <div class="row">
+        <% 
+        if (foundSalon.staffs && foundSalon.staffs.length > 0) { %>
+        <% foundSalon.staffs.forEach(staff => { %>
+          <div class="col-md-6 col-lg-4 text-center mb-5" data-aos="fade-up">
+            <img src="/styles/images/person_1.jpg" alt="Image" class="img-fluid w-50 rounded-circle mb-4">
+            <h2 class="text-black font-weight-light mb-4"><%= staff.name %> - <%= staff.speciality %></h2>
+            <p class="mb-4">Years of Experience: <%= staff.yearsOfExperience %></p>
+            <p>
+              <a href="#" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+              <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+            </p>
+          </div>
+        <% if (foundUser.isAdmin){%> 
+            <a href="/salons/<%= foundSalon._id %>/<%=staff._id%>/DeleteStaff">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>    
+            </a>  
+        <% } %>
+                <% }) %>
+    <% } else { %>
+        <p class="mb-4">No Staff Available.</p>
+
+    <% } %>
+
+        </div>
       </div>
-    </div> -->
+    </div>
+
+     <div class="site-section bg-light">
+      <div class="container">
+        <div class="row">
+          <% if (foundUser.isAdmin){%> 
+          <div class="col-lg-6 bg-white p-md-5 align-self-center">
+                <a href="/salons/<%= foundSalon._id %>/edit" class="btn btn-black py-3 px-5">Edit Details</a>
+          </div>
+          <div class="col-lg-6 bg-white p-md-5 align-self-center">
+                
+                <form action="/salons/<%= foundSalon._id %>?_method=DELETE" method="post">
+                    <button type="submit" class="btn btn-black py-3 px-5">Delete Salon</button>               
+            
+          </div>
+          <%}%>
+        </div>
+      </div>
+    </div> 
 
 
     <div class="site-blocks-cover overlay inner-page-cover" style="background-image: url(/styles/images/hero_bg_2.jpg); background-attachment: fixed;">

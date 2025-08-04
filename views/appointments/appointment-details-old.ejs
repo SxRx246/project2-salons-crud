@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details</title>
+    <link rel="stylesheet" href="/styles/main.css">
+
+</head>
+
+<body>
+    <%- include('../partials/navbar.ejs') %>
+        <div class="container">
+            <h1>Appointment Details</h1>
+            <p><strong>Customer:</strong>
+                <%= foundAppointment.customerName %>
+            </p>
+            <p><strong>Date:</strong>
+                <%= new Date(foundAppointment.date).toLocaleDateString() %>
+            </p>
+            <p><strong>Time:</strong>
+                <%= foundAppointment.time %>
+            </p>
+            <p><strong>Salon:</strong>
+                <%= foundAppointment.salon.name %>
+            </p>
+            <p><strong>Staff:</strong>
+                <%= foundAppointment.staff.name %> - <%= foundAppointment.staff.specialty %>
+            </p>
+
+            <p><strong>Services:</strong></p>
+            <ul>
+                <% try{
+                    if (foundAppointment.services && foundAppointment.services.length > 0) { %>
+                    <% foundAppointment.services.forEach(service => { %>
+                        <li><%= service.name %></li>
+                    <% }) %>
+                <% } else { %>
+                    <li>No services available for this appointment.</li>
+                <% } }
+                catch(error){
+                    console.log(error)
+                }
+                %>
+            </ul>
+
+            <div class="buttons-container">
+                <a href="/appointments/<%= foundAppointment._id %>/edit" class="button">Edit Appointment</a>
+                <form action="/appointments/<%= foundAppointment._id %>?_method=DELETE" method="POST"
+                    style="display:inline;">
+                    <button type="submit">Cancel Appointment</button>
+                </form>
+                <a href="/appointments" class="button">Back to Appointments</a>
+            </div>
+        </div>
+</body>
+
+</html>

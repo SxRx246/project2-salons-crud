@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appointments List</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+</head>
+
+<body>
+    <%- include('../partials/navbar.ejs') %>
+
+        <div class="container list">
+            <h2 class="page-title">Appointments List</h2>
+
+            <ul>
+                <% allAppointments.forEach(appointment=> { %>
+                    <li class="appointment-item">
+                        <a href="/appointments/<%= appointment._id %>">
+                            Appointment for <strong>
+                                <%= appointment.customerName %>
+                            </strong> with <strong>
+                                <%= appointment.staff.name %>
+                            </strong> on <%= new Date(appointment.date).toLocaleDateString() %> </strong> in <strong> 
+                            <%= appointment.salon.name %>
+                        </a>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% if (!foundUser.isAdmin){%> 
+            <div class="buttons-container">
+                <a href="/appointments/new" class="button">Book New Appointment</a>
+                <a href="/salons">Back to salons</a>
+            </div>
+            <% } %>
+        </div>
+</body>
+
+</html>

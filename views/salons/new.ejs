@@ -28,7 +28,6 @@
         function addService() {
             const serviceSection = document.getElementById('serviceSection');
             const serviceDiv = document.createElement('div');
-            serviceDiv.className = 'service';
 
             serviceDiv.innerHTML = `
                 <label class="text-black">Service Name:</label>
@@ -37,7 +36,8 @@
                 <input class="form-control" type="number" name="servicePrice" required>
                 <label class="text-black">Description:</label>
                 <input class="form-control" type="text" name="serviceDescription" required>
-            `;
+                <hr>
+                `;
 
             serviceSection.appendChild(serviceDiv);
         }
@@ -45,7 +45,6 @@
         function addStaff() {
             const staffSection = document.getElementById('staffSection');
             const staffDiv = document.createElement('div');
-            staffDiv.className = 'staff';
 
             staffDiv.innerHTML = `
                 <label class="text-black">Staff Name:</label>
@@ -54,6 +53,7 @@
                 <input class="form-control" type="text" name="staffSpeciality" required>
                 <label class="text-black">yearsOfExperience:</label>
                 <input class="form-control" type="number" name="yearsOfExperience" required>
+                <hr>
             `;
 
             staffSection.appendChild(staffDiv);
@@ -319,7 +319,7 @@
         <div class="row text-center">
           <div class="col-md-12">
             <h2 class="mb-4 text-black">We want you to look fabulous</h2>
-            <p class="mb-0"><a href="/salons" class="btn btn-primary py-3 px-5 text-white">Visit Our Salon Now</a></p>
+            <p class="mb-0"><a href="/salons" class="btn btn-primary py-3 px-5 text-white">See Our Salons Now</a></p>
           </div>
         </div>
       </div>

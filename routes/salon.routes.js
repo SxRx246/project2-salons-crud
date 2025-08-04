@@ -156,6 +156,12 @@ router.get("/:id",async(req,res)=>{
 // UPDATE
 router.get("/:id/edit", async (req, res) => {
     try {
+        const userId = req.session.user?._id || null;
+        let foundUser = null;
+
+        if (userId) {
+            foundUser = await User.findById(userId);
+        }
         const foundSalon = await Salon.findById(req.params.id).populate("services").populate("staffs");
 
         const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -163,7 +169,7 @@ router.get("/:id/edit", async (req, res) => {
             return { day, selected: foundSalon.workingDays.includes(day) };
         });
 
-        res.render("salons/edit.ejs", { foundSalon, selectedDays });
+        res.render("salons/edit.ejs", { foundSalon, selectedDays, foundUser });
     } catch (error) {
         console.log(error);
         res.status(500).send("Error fetching salon details");

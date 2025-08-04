@@ -47,3 +47,4 @@ const salonSchema = new mongoose.Schema({
 const Salon = mongoose.model("Salon",salonSchema)
 
 module.exports = Salon
+
