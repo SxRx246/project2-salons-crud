@@ -141,9 +141,10 @@
           <div class="row align-items-center justify-content-center text-center">
 
             <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
-              <h2 class="text-white font-weight-light mb-2 display-1">Beautiful Hair, Healthy You!</h2>
+              <h5 class="text-white font-weight-light text-uppercase">Welcome to </h5>
+              <h2 class="text-white font-weight-light mb-2 display-1"><%= foundAppointment.salon.name %></h2>
 
-              <p><a href="/appointments/new/<%= foundAppointment._id%>" class="btn btn-black py-3 px-5">Book Now!</a></p>
+              <p><a href="/appointments/new/<%= foundAppointment.salon._id%>" class="btn btn-black py-3 px-5">Book Now!</a></p>
             </div>
           </div>
         </div>
@@ -162,17 +163,17 @@
             <div class="text-center">
       <h2 class="text-primary h2 mb-5">At</h2>
       <p class="mb-4">
-        <span class="d-block font-weight-bold"><%= foundAppointment.time %></span>
+        <span class="d-block font-weight-bold" style="font-size: 20px;"><%= foundAppointment.time %></span>
       </p>
       <br>
       <h2 class="text-primary h2 mb-5">On</h2>
       <p class="mb-4">
-        <span class="d-block font-weight-bold"><%= new Date(foundAppointment.date).toLocaleDateString() %></span>
+        <span class="d-block font-weight-bold" style="font-size: 20px;"><%= new Date(foundAppointment.date).toLocaleDateString() %></span>
       </p>
       <br>
       <h2 class="text-primary h2 mb-5">With</h2>
       <p class="mb-4">
-        <span class="d-block font-weight-bold">
+        <span class="d-block font-weight-bold" style="font-size: 20px;">
           <%= foundAppointment.staff ? foundAppointment.staff.name : "Staff not assigned" %> - 
           <%= foundAppointment.staff ? foundAppointment.staff.specialty : "" %>
         </span>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+    <%- include('../partials/navbar.ejs') %>
+    <div class="container">
+        <h1 class="page-title">
+            Edit Appointment
+            <% if (selectedSalonId) { %>
+                at "<%= foundAppointment.salon.name %>"
+            <% } %>
+        </h1>
+
+        <form action="/appointments/<%= foundAppointment._id %>?_method=PUT" method="POST">
+            <input type="hidden" name="salon" value="<%= selectedSalonId || '' %>" />
+
+            <label for="customerName">Customer Name</label>
+            <input type="text" name="customerName" value="<%= foundAppointment.customerName %>" required>
+
+            <label for="date">Date</label>
+            <input type="date" name="date" value="<%= new Date(foundAppointment.date).toISOString().split('T')[0] %>" required>
+
+            <label for="time">Time</label>
+            <input type="time" name="time" value="<%= foundAppointment.time %>" required>
+
+<label for="staff">Staff</label>
+<select name="staff" required>
+    <% if (salonStaffs.length > 0) { %>
+        <% salonStaffs.forEach(staff => { %>
+            <option value="<%= staff._id %>" 
+                <% if (foundAppointment.staff && staff._id.toString() === foundAppointment.staff._id.toString()) { %>
+                    selected
+                <% } %>>
+                <%= staff.name %> - <%= staff.specialty %>
+            </option>
+        <% }) %>
+    <% } else { %>
+        <option disabled selected>No staff available. Please select a salon.</option>
+    <% } %>
+</select>
+
+<label for="services">Service</label>
+<select name="services" multiple required>
+    <% if (salonServices.length > 0) { %>
+        <% salonServices.forEach(service => { %>
+            <option value="<%= service._id %>" 
+                <% if (foundAppointment.services.map(s => s._id.toString()).includes(service._id.toString())) { %>
+                    selected
+                <% } %>>
+                <%= service.name %>
+            </option>
+        <% }) %>
+    <% } else { %>
+        <option disabled selected>No services available. Please select a salon.</option>
+    <% } %>
+</select>
+
+            <button type="submit">Update Appointment</button>
+        </form>
+    </div>
+</body>
+
+</html>

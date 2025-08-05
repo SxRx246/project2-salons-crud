@@ -152,8 +152,9 @@
                 <div class="p-4 p-lg-5">
 
                   <h3 class="text-black h4">Appointment for <strong>
-                        <%= foundUser.username%>
-                          </strong></h3> 
+                                          <%= appointment.customerName %>
+                                          <% console.log(appointment.customerName) %>
+                                      </strong></h3> 
                   <p>with <strong>
                   <%= appointment.staff ? appointment.staff.name : "Staff not assigned" %>
                 </strong> on <%= new Date(appointment.date).toLocaleDateString() %> in <strong>

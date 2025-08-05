@@ -13,8 +13,7 @@ const mongoose = require("mongoose")
 
 const appointmentSchema = new mongoose.Schema({
     customerName:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        type:String,
         required: true
     },
     date:{
