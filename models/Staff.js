@@ -5,7 +5,6 @@ const staffSchema = new mongoose.Schema({
         type:String,
         required:[true, "name is required" ],
     },
-    // we can make it as a range in the future
     speciality:{
         type:String,
         required:[true, "speciality is required"]

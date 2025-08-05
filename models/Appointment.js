@@ -1,15 +1,5 @@
 const mongoose = require("mongoose")
 
-// const noteSchema = new mongoose.Schema({
-//     content:{
-//         type:String,
-//         required: true
-//     },
-//     createdAt:{
-//         type:Date,
-//         default: Date.now
-//     }    
-// })
 
 const appointmentSchema = new mongoose.Schema({
     customerName:{
@@ -40,7 +30,6 @@ const appointmentSchema = new mongoose.Schema({
         ref:"Salon",
         required: true
     }
-    // notes:[noteSchema]
 })
 
 const Appointment = mongoose.model("Appointment",appointmentSchema)

@@ -6,7 +6,6 @@ const serviceSchema = new mongoose.Schema({
         required:[true, "name is required" ],
         unique: [true, "name already taken please pick another name"]
     },
-    // we can make it as a range in the future
     price:{
         type:Number,
         required:[true, "Price is required"]
@@ -23,13 +22,6 @@ const serviceSchema = new mongoose.Schema({
         required:true
     }
 
-
-
-    // ,
-    // staffs:[{    
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref:"User"
-    // }]
 })
 
 const Service = mongoose.model("Service",serviceSchema)
