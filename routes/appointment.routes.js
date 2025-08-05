@@ -214,7 +214,7 @@ router.get("/:id/:serviceID", async (req, res) => {
     }
 })
 
-router.get("/:appointmentID/:serviceID", async (req, res) => {
+router.get("/:appointmentID/:serviceID/deleteService", async (req, res) => {
     try {
         // console.log("this is the salon id"+req.params.salonId)
 

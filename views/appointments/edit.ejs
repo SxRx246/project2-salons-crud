@@ -56,7 +56,7 @@
           <div class="row align-items-center justify-content-center text-center">
 
             <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
-              <h2 class="text-white font-weight-light mb-2 display-1">Change The Appointment</h2>
+              <h2 class="text-white font-weight-light mb-2 display-1">Edit Appointment</h2>
 
               
             </div>
@@ -74,7 +74,7 @@
           <div class="col-md-7 mb-5">
 
         <form action="/appointments/<%= foundAppointment._id %>?_method=PUT" method="POST">
-              <h2 class="mb-4 site-section-heading">Change Appointment</h2>
+              <h2 class="mb-4 site-section-heading">Edit Appointment</h2>
 
             <input type="hidden" name="salon" value="<%= selectedSalonId || '' %>" />
 
@@ -155,7 +155,7 @@
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <input type="submit" value="Book Appointment" class="btn btn-primary py-2 px-4 text-white">
+                  <input type="submit" value="Update Appointment" class="btn btn-primary py-2 px-4 text-white">
                 </div>
               </div>
 

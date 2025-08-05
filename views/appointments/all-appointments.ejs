@@ -61,7 +61,7 @@
             <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
               <h2 class="text-white font-weight-light mb-4 display-1 line-height-1">My Appointments</h2>
 
-              <p><a href="/appointments/new" class="btn btn-black py-3 px-5">Book New a Appoitment!</a></p>
+              <p><a href="/appointments/new" class="btn btn-black py-3 px-5">Book New Appoitment</a></p>
             </div>
           </div>
         </div>
@@ -82,8 +82,8 @@
                 <!-- <img src="/styles/images/img_1.jpg" alt="Image" class="img-fluid"> -->
                 <div class="p-4 p-lg-5">
 
-                  <h3 class="text-black h4" style="color:red; font-weight: bold;">Appointment</h3> 
-                  <p style="font-size: 20px; color:black; font-weight: bold;"> on <strong  class="font-weight-bold text-primary"><%= new Date(appointment.date).toLocaleDateString() %></strong> in <strong  class="font-weight-bold text-primary">
+                  <h3 class="text-black h4" style="font-weight: bold;">Appointment</h3> 
+                  <p style="font-size: 20px; color:black; font-weight: bold;"> on <strong style="font-size: 20px; color:rgb(95, 184, 0); font-weight: bold;"><%= new Date(appointment.date).toLocaleDateString() %></strong> in <strong style="font-size: 20px; color:rgb(95, 184, 0); font-weight: bold;" >
                   <%= appointment.salon ? appointment.salon.name : "Salon not assigned" %>
                 </strong></p>
                   
@@ -163,30 +163,6 @@
         </div>-->
       <!-- </div> -->
 
-      <% if (foundUser.isAdmin){%> 
-      <div class="site-section">
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-md-12">
-              <!-- <h2 class="mb-4 text-black">We want your hair to look fabulous</h2> -->
-              <p class="mb-0"><a href="/appointments/new" class="btn btn-primary py-3 px-5 text-white">Book New Appointment</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-        <% } 
-        else{%> 
-            <div class="site-section">
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-md-12">
-              <h2 class="mb-4 text-black">We want you look fabulous</h2>
-              <p class="mb-0"><a href="/appointments/new" class="btn btn-primary py-3 px-5 text-white">Book Now</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <% } %>
    </div>
         </div>
     </div>
