@@ -82,7 +82,7 @@
                 <!-- <img src="/styles/images/img_1.jpg" alt="Image" class="img-fluid"> -->
                 <div class="p-4 p-lg-5">
 
-                  <h3 class="text-black h4" style="font-weight: bold;">Appointment</h3> 
+                  <h3 class="text-black h4" style="color:red; font-weight: bold;">Appointment</h3> 
                   <p style="font-size: 20px; color:black; font-weight: bold;"> on <strong  class="font-weight-bold text-primary"><%= new Date(appointment.date).toLocaleDateString() %></strong> in <strong  class="font-weight-bold text-primary">
                   <%= appointment.salon ? appointment.salon.name : "Salon not assigned" %>
                 </strong></p>
@@ -187,10 +187,14 @@
         </div>
       </div>
       <% } %>
-
+   </div>
+        </div>
     </div>
-
     <%- include('../partials/footer.ejs') %>
+ 
+
+
+    
 
 
     <script src="/styles/js/jquery-3.3.1.min.js"></script>
@@ -206,7 +210,6 @@
     <script src="/styles/js/aos.js"></script>
 
     <script src="/styles/js/main.js"></script>
-
 </body>
 
 </html>
