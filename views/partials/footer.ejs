@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+html, body {
+    height: 100%;
+    margin: 0; /* Ensure no margin exists */
+    padding: 0; /* Ensure no padding exists */
+}
+
+.site-wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the footer stays at the bottom */
+}
+
+.site-footer {
+    padding: 0; /* Remove any extra padding */
+    margin: 0; /* Remove any margin */
+}
+
+.footer-text {
+    /* background-color: #343a40; Dark background */
+    color: #ffffff; /* White text for contrast */
+    border-radius: 5px; /* Optional */
+    padding: 15px; /* Adjust padding as necessary */
+    display: inline-block; /* Ensure the background only covers the text */
+    margin: 0 auto; /* Center the text */
+}
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Your main content goes here -->
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div class="footer-text"> <!-- Wrap text in footer-text -->
+                        <p>
+                            &copy; <script>document.write(new Date().getFullYear());</script> SalonEase | All rights reserved.
+                        </p>
+                        <p class="mb-0">Book your favorite salon appointments easily!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

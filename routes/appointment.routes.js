@@ -54,13 +54,13 @@ router.get("/new", async (req, res) => {
         }
         const allSalons = await Salon.find();
         const salonId = req.query.salonId;
-        const selectedSalon = ""
+        let selectedSalon = ""
 
         let salonStaffs = [];
         let salonServices = [];
 
         if (salonId) {
-            const selectedSalon = await Salon.findById(salonId)
+             selectedSalon = await Salon.findById(salonId)
                 .populate("staffs")
                 .populate("services");
 
@@ -71,6 +71,7 @@ router.get("/new", async (req, res) => {
                 salonServices = selectedSalon.services;
             }
         }
+
 
 
         res.render("appointments/new.ejs", {
