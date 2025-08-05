@@ -1,18 +1,13 @@
-// import the model
 const Salon = require("../models/Salon")
 const User = require("../models/User")
 const Service = require("../models/Service")
 const Staff = require("../models/Staff")
 
-// import the router
 const router = require("express").Router()
 
 
-
-// write your routes
-
-router.get("/",async(req,res)=>{
-    try{
+router.get("/", async (req, res) => {
+    try {
         const userId = req.session.user?._id || null;
         let foundUser = null;
 
@@ -20,26 +15,24 @@ router.get("/",async(req,res)=>{
             foundUser = await User.findById(userId);
         }
         const allSalons = await Salon.find()
-        res.render("salons/all-salons.ejs",{allSalons, foundUser})
-        // res.render("styles/salons.ejs",{allSalons, foundUser})
-        // res.render("public/styles/salons.html",{allSalons, foundUser})
+        res.render("salons/all-salons.ejs", { allSalons, foundUser })
     }
-    catch(error){
+    catch (error) {
         console.log(error)
     }
 })
 
-router.get("/new",async(req,res)=>{
-            const userId = req.session.user?._id || null;
-        let foundUser = null;
+router.get("/new", async (req, res) => {
+    const userId = req.session.user?._id || null;
+    let foundUser = null;
 
-        if (userId) {
-            foundUser = await User.findById(userId);
-        }
-    try{
-        res.render("salons/new.ejs", { servicesCount: 0 , foundUser});
+    if (userId) {
+        foundUser = await User.findById(userId);
     }
-    catch(error){
+    try {
+        res.render("salons/new.ejs", { servicesCount: 0, foundUser });
+    }
+    catch (error) {
         console.log(error)
     }
 
@@ -48,17 +41,16 @@ router.get("/new",async(req,res)=>{
 
 
 router.post("/", async (req, res) => {
-                const userId = req.session.user?._id || null;
-        let foundUser = null;
+    const userId = req.session.user?._id || null;
+    let foundUser = null;
 
-        if (userId) {
-            foundUser = await User.findById(userId);
-        }
-    console.log("all data "+req.body)
-    const { name, description, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription , staffName, staffSpeciality, yearsOfExperience} = req.body;
+    if (userId) {
+        foundUser = await User.findById(userId);
+    }
+    console.log("all data " + req.body)
+    const { name, description, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription, staffName, staffSpeciality, yearsOfExperience } = req.body;
 
     try {
-        // Create the salon
         const newSalon = await Salon.create({
             name,
             description,
@@ -68,61 +60,51 @@ router.post("/", async (req, res) => {
             workingDays
         });
 
-        // Ensure serviceName, price, and description are arrays
         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
         const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice];
         const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription];
 
-        // Check if any services are provided
-    if (serviceNames.length === 0 || serviceNames.every(name => !name)) {
-        // No services provided, handle accordingly
-        console.log("No services added.");
-    } else {
-        // Map services
-        const services = serviceNames.map((name, index) => ({
-            name,
-            price: servicePrices[index],
-            description: serviceDescriptions[index],
-            salon: newSalon._id // Associate each service with the newly created salon
-        }));
+        if (serviceNames.length === 0 || serviceNames.every(name => !name)) {
+            console.log("No services added.");
+        } else {
+            const services = serviceNames.map((name, index) => ({
+                name,
+                price: servicePrices[index],
+                description: serviceDescriptions[index],
+                salon: newSalon._id
+            }));
 
-        // Save each service
-        for (const serviceData of services) {
-            const service = new Service(serviceData); // Create a new Service instance
-            await service.save(); // Save the service
-            newSalon.services.push(service._id); // Add service ID to the salon's services
+            for (const serviceData of services) {
+                const service = new Service(serviceData);
+                await service.save();
+                newSalon.services.push(service._id);
+            }
+
         }
 
-    }
+        const staffNames = Array.isArray(staffName) ? staffName : [staffName];
+        const staffSpecialitys = Array.isArray(staffSpeciality) ? staffSpeciality : [staffSpeciality];
+        const yearsOfExperiences = Array.isArray(yearsOfExperience) ? yearsOfExperience : [yearsOfExperience];
 
-    // Ensure serviceName, price, and description are arrays
-    const staffNames = Array.isArray(staffName) ? staffName : [staffName];
-    const staffSpecialitys = Array.isArray(staffSpeciality) ? staffSpeciality : [staffSpeciality];
-    const yearsOfExperiences = Array.isArray(yearsOfExperience) ? yearsOfExperience : [yearsOfExperience];
+        if (staffNames.length === 0 || staffNames.every(name => !name)) {
+            console.log("No services added.");
+        } else {
+            const staffs = staffNames.map((name, index) => ({
+                name,
+                speciality: staffSpecialitys[index],
+                yearsOfExperience: yearsOfExperiences[index],
+                salon: newSalon._id
+            }));
 
-        // Check if any services are provided
-    if (staffNames.length === 0 || staffNames.every(name => !name)) {
-        // No services provided, handle accordingly
-        console.log("No services added.");
-    } else {
-        // Map services
-        const staffs = staffNames.map((name, index) => ({
-            name,
-            speciality: staffSpecialitys[index],
-            yearsOfExperience: yearsOfExperiences[index],
-            salon: newSalon._id // Associate each service with the newly created salon
-        }));
+            for (const staffData of staffs) {
+                const staff = new Staff(staffData);
+                await staff.save();
+                newSalon.staffs.push(staff._id);
+            }
 
-        // Save each service
-        for (const staffData of staffs) {
-            const staff = new Staff(staffData); // Create a new Service instance
-            await staff.save(); // Save the service
-            newSalon.staffs.push(staff._id); // Add service ID to the salon's services
         }
 
-    }
-
-        await newSalon.save(); // Save the updated salon with the services
+        await newSalon.save();
 
         const foundSalon = {
             name,
@@ -131,12 +113,11 @@ router.post("/", async (req, res) => {
             openingTime,
             closingTime,
             workingDays,
-            services: serviceNames.length === 0 ? [] : [] ,// Services will be an empty array if none
-            staffs: staffNames.length === 0 ? [] : [] // Services will be an empty array if none
+            services: serviceNames.length === 0 ? [] : [],
+            staffs: staffNames.length === 0 ? [] : []
         }
-        // Render the salon details page
         res.render("salons/salon-details.ejs", {
-            foundSalon , foundUser
+            foundSalon, foundUser
         });
     } catch (error) {
         console.log(error);
@@ -146,8 +127,8 @@ router.post("/", async (req, res) => {
 
 
 
-router.get("/:id",async(req,res)=>{
-    try{
+router.get("/:id", async (req, res) => {
+    try {
         const userId = req.session.user?._id || null;
         let foundUser = null;
 
@@ -156,16 +137,15 @@ router.get("/:id",async(req,res)=>{
         }
         const foundSalon = await Salon.findById(req.params.id).populate("services").populate("staffs")
         console.log(foundSalon.services.length)
-        res.render("salons/salon-details.ejs",{foundSalon , foundUser})
+        res.render("salons/salon-details.ejs", { foundSalon, foundUser })
     }
-    catch(error){
+    catch (error) {
         console.log(error)
     }
 })
 
 
 
-// UPDATE
 router.get("/:id/edit", async (req, res) => {
     try {
         const userId = req.session.user?._id || null;
@@ -196,12 +176,12 @@ router.put("/:id", async (req, res) => {
 
         const updatedSalon = await Salon.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
-        const { serviceName, servicePrice, serviceDescription, serviceId , staffName, staffSpeciality, yearsOfExperience, staffId} = req.body;
+        const { serviceName, servicePrice, serviceDescription, serviceId, staffName, staffSpeciality, yearsOfExperience, staffId } = req.body;
 
         const serviceNames = Array.isArray(serviceName) ? serviceName : [serviceName];
-        const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice]; // Ensure this is an array
-        const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription]; // Ensure this is an array
-        const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId]; // Ensure this is an array
+        const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice];
+        const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription];
+        const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId];
 
         for (let i = 0; i < serviceNames.length; i++) {
             const name = serviceNames[i];
@@ -219,23 +199,15 @@ router.put("/:id", async (req, res) => {
                     salon: updatedSalon._id,
                 });
                 await newService.save();
-                updatedSalon.services.push(newService._id); 
+                updatedSalon.services.push(newService._id);
             }
         }
 
-                // Handle services
-        // const { staffName, staffSpeciality, yearsOfExperience, staffId } = req.body;
-
-        // Ensure service arrays
-        // const staffNames = Array.isArray(staffName) ? staffName : [staffName];
-        // const servicePrices = Array.isArray(servicePrice) ? servicePrice : [servicePrice]; // Ensure this is an array
-        // const serviceDescriptions = Array.isArray(serviceDescription) ? serviceDescription : [serviceDescription]; // Ensure this is an array
-        // const serviceIds = Array.isArray(serviceId) ? serviceId : [serviceId]; // Ensure this is an array
 
         const staffNames = Array.isArray(staffName) ? staffName : [staffName];
         const staffSpecialitys = Array.isArray(staffSpeciality) ? staffSpeciality : [staffSpeciality];
         const yearsOfExperiences = Array.isArray(yearsOfExperience) ? yearsOfExperience : [yearsOfExperience];
-        const staffIds = Array.isArray(staffId) ? staffId : [staffId]; // Ensure this is an array
+        const staffIds = Array.isArray(staffId) ? staffId : [staffId];
 
 
         for (let i = 0; i < staffNames.length; i++) {
@@ -246,21 +218,20 @@ router.put("/:id", async (req, res) => {
 
             if (id) {
                 await Staff.findByIdAndUpdate(id, { name, speciality, yearsOfExperience });
-                // await Service.findByIdAndUpdate(id, { serviceName, servicePrice, serviceDescription });
             } else if (name && speciality && yearsOfExperience) {
 
                 const newStaff = new Staff({
                     name,
                     speciality,
                     yearsOfExperience,
-                    salon: updatedSalon._id, 
+                    salon: updatedSalon._id,
                 });
                 await newStaff.save();
-                updatedSalon.staffs.push(newStaff._id); 
+                updatedSalon.staffs.push(newStaff._id);
             }
         }
 
-        await updatedSalon.save(); // Save the updated salon with the new services
+        await updatedSalon.save();
         res.redirect(`/salons/${updatedSalon._id}`);
     } catch (error) {
         console.log(error);
@@ -272,7 +243,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         await Salon.findByIdAndDelete(req.params.id);
-        await Service.deleteMany({ salon: req.params.id }); // Optionally delete services associated with the salon
+        await Service.deleteMany({ salon: req.params.id });
         res.redirect("/salons");
     } catch (error) {
         console.log(error);
@@ -283,12 +254,10 @@ router.delete("/:id", async (req, res) => {
 // Deleting a Service
 router.get("/:salonID/:serviceID", async (req, res) => {
     try {
-        // console.log("this is the salon id"+req.params.salonId)
 
         await Service.findByIdAndDelete(req.params.serviceID);
-        // await Service.deleteMany({ salon: req.params.id }); // Optionally delete services associated with the salon
         res.redirect(`/salons/${req.params.salonID}`);
-        // res.redirect(`/salons`);
+
     } catch (error) {
         console.log(error);
         res.status(500).send("Error deleting salon");
@@ -298,12 +267,8 @@ router.get("/:salonID/:serviceID", async (req, res) => {
 // Deleting a Staff
 router.get("/:salonID/:staffID/DeleteStaff", async (req, res) => {
     try {
-        // console.log("this is the salon id"+req.params.salonId)
-
         await Staff.findByIdAndDelete(req.params.staffID);
-        // await Service.deleteMany({ salon: req.params.id }); // Optionally delete services associated with the salon
         res.redirect(`/salons/${req.params.salonID}`);
-        // res.redirect(`/salons`);
     } catch (error) {
         console.log(error);
         res.status(500).send("Error deleting salon");

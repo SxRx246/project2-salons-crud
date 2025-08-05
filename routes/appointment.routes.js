@@ -23,27 +23,6 @@ router.get("/", async (req, res) => {
     }
 })
 
-// router.get("/new", async (req, res) => {
-//     try {
-//         const allStaffs = await Staff.find()
-//         const allSalons = await Salon.find()
-//         const allServices = await Service.find()
-//         res.render("appointments/new.ejs", { allStaffs , allSalons, allServices})
-//     }
-//     catch (error) {
-//         console.log(error)
-//     }
-// })
-
-// router.get("/new", async (req, res) => {
-//     try {
-//         const allSalons = await Salon.find();
-//         res.render("appointments/new.ejs", { allSalons });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// });
-
 router.get("/new", async (req, res) => {
     try {
         const userId = req.session.user?._id || null;
@@ -60,7 +39,7 @@ router.get("/new", async (req, res) => {
         let salonServices = [];
 
         if (salonId) {
-             selectedSalon = await Salon.findById(salonId)
+            selectedSalon = await Salon.findById(salonId)
                 .populate("staffs")
                 .populate("services");
 
@@ -91,7 +70,6 @@ router.get("/new", async (req, res) => {
 
 router.get("/new/:id", async (req, res) => {
     try {
-        // const allSalons = await Salon.find();
         const userId = req.session.user?._id || null;
         let foundUser = null;
 
@@ -99,7 +77,7 @@ router.get("/new/:id", async (req, res) => {
             foundUser = await User.findById(userId);
         }
         const salonId = req.params.id;
-        
+
         let selectedSalon = null;
         let salonStaffs = [];
         let salonServices = [];
@@ -119,13 +97,13 @@ router.get("/new/:id", async (req, res) => {
         }
 
 
-    res.render("appointments/new.ejs", {
-        selectedSalonId: salonId,
-        selectedSalon,
-        salonStaffs,
-        salonServices,
-        foundUser
-    });
+        res.render("appointments/new.ejs", {
+            selectedSalonId: salonId,
+            selectedSalon,
+            salonStaffs,
+            salonServices,
+            foundUser
+        });
     } catch (error) {
         console.log(error);
         res.status(500).send("Error loading form");
@@ -135,9 +113,9 @@ router.get("/new/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     console.log(req.body)
     try {
-       const newAppointment = await Appointment.create(req.body)
-       console.log("newAppointment "+req.body)
-        res.redirect("/appointments/"+newAppointment._id)
+        const newAppointment = await Appointment.create(req.body)
+        console.log("newAppointment " + req.body)
+        res.redirect("/appointments/" + newAppointment._id)
     }
     catch (error) {
         console.log(error)
@@ -154,13 +132,13 @@ router.get("/:id", async (req, res) => {
         }
         const foundAppointment = await Appointment.findById(req.params.id).populate("staff").populate("salon").populate("services")
         console.log("Found Appointment:", foundAppointment); // Debugging line
-        res.render("appointments/appointment-details.ejs", { foundAppointment,foundUser })
+        res.render("appointments/appointment-details.ejs", { foundAppointment, foundUser })
     }
     catch (error) {
         console.log(error)
     }
 })
-// GET route to render the edit page
+
 router.get("/:id/edit", async (req, res) => {
     try {
         const foundAppointment = await Appointment.findById(req.params.id)
@@ -168,8 +146,6 @@ router.get("/:id/edit", async (req, res) => {
             .populate("salon")
             .populate("services");
 
-        // Fetch available salons, staff, and services as needed
-        // const allSalons = await Salon.find();
         const salonStaffs = await Staff.find({ salon: foundAppointment.salon });
         const salonServices = await Service.find({ salon: foundAppointment.salon });
 
@@ -184,7 +160,6 @@ router.get("/:id/edit", async (req, res) => {
     }
 });
 
-// PUT route to update the appointment
 router.put("/:id", async (req, res) => {
     try {
         await Appointment.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -216,21 +191,16 @@ router.get("/:id/:serviceID", async (req, res) => {
 
 router.get("/:appointmentID/:serviceID/deleteService", async (req, res) => {
     try {
-        // Find the appointment by its ID
         const appointment = await Appointment.findById(req.params.appointmentID);
-        
-        // Check if the appointment exists
+
         if (!appointment) {
             return res.status(404).send("Appointment not found");
         }
 
-        // Remove the service from the services array
         appointment.services.pull(req.params.serviceID);
-        
-        // Save the updated appointment
+
         await appointment.save();
 
-        // Redirect to the appointment page
         res.redirect(`/appointments/${req.params.appointmentID}`);
     } catch (error) {
         console.log(error);
@@ -238,30 +208,5 @@ router.get("/:appointmentID/:serviceID/deleteService", async (req, res) => {
     }
 });
 
-
-// router.post("/:id/note", async (req, res) => {
-//     try {
-//         const foundAppointment = await Appointment.findById(req.params.id)
-//         foundAppointment.notes.push(req.body)
-//         await foundAppointment.save()
-//         res.redirect("/appointments/" + req.params.id)
-
-//     }
-//     catch (error) {
-//         console.log(error)
-//     }
-// })
-
-// router.delete("/:id/notes/:noteId", async (req, res) => {
-//     try {
-//         const appointment = await Appointment.findById(req.params.id);
-//         appointment.notes = appointment.notes.filter(note => note._id.toString() !== req.params.noteId);
-//         await appointment.save();
-//         res.redirect("/appointments/" + req.params.id);
-//     }
-//     catch (error) {
-//         console.log(error)
-//     }
-// });
 
 module.exports = router
