@@ -85,7 +85,7 @@
 
             <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
               <h2 class="text-white font-weight-light mb-4 display-1 line-height-1">Our Salons</h2>
-              <% if (foundUser.isAdmin){%> 
+              <% if (foundUser && foundUser.isAdmin){%> 
               <p class="mb-0"><a href="/salons/new" class="btn btn-black py-3 px-5">Add New Salon</a></p>
                       <% } else{%> 
               <p><a href="/appointments/new" class="btn btn-black py-3 px-5">Book Now</a></p>

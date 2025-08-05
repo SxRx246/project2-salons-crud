@@ -67,8 +67,12 @@
                 <h2 class="text-white font-weight-light mb-2 display-1">
                   <%= foundSalon.name %>
                 </h2>
+                            <% if (foundUser && foundUser.isAdmin){%> 
+              <p class="mb-0"><a href="/salons/new" class="btn btn-black py-3 px-5">Add New Salon</a></p>
+                      <% } else{%> 
+                <p><a href="/appointments/new/<%= foundSalon._id%>" class="btn btn-black py-3 px-5">Book Now</a></p>
+                  <% } %>
 
-                <p><a href="/appointments/new/<%= foundSalon._id%>" class="btn btn-black py-3 px-5">Book Now!</a></p>
               </div>
             </div>
           </div>
@@ -163,7 +167,7 @@
                       <%= service.description %>
                     </p>
                     <p><strong class="font-weight-bold text-primary">$<%= service.price %></strong></p>
-                    <% if (foundUser.isAdmin){%>
+                    <% if (foundUser && foundUser.isAdmin){%>
                       <a href="/salons/<%= foundSalon._id %>/<%=service._id%>">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                           class="bi bi-trash" viewBox="0 0 16 16">
@@ -224,7 +228,7 @@
                     <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a> -->
                   </p>
                 </div>
-                <% if (foundUser.isAdmin){%>
+                <% if (foundUser && foundUser.isAdmin){%>
                   <a href="/salons/<%= foundSalon._id %>/<%=staff._id%>/DeleteStaff">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -249,7 +253,7 @@
       <div class="site-section bg-light">
         <div class="container">
           <div class="row justify-content-center mb-5">
-            <% if (foundUser.isAdmin){%>
+            <% if (foundUser && foundUser.isAdmin){%>
               <div class="col-lg-6 bg-white p-md-5 align-self-center">
                 <a href="/salons/<%= foundSalon._id %>/edit" class="btn btn-black py-3 px-5">Edit Details</a>
               </div>

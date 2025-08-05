@@ -22,7 +22,7 @@
         </div>
         <% }) %>
 
-        <% if (foundUser.isAdmin){%> 
+        <% if (foundUser && foundUser.isAdmin){%> 
         <a href="/salons/new">Add New Salon</a>
         <% } 
         else{%> 

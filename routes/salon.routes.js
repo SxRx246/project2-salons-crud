@@ -30,8 +30,14 @@ router.get("/",async(req,res)=>{
 })
 
 router.get("/new",async(req,res)=>{
+            const userId = req.session.user?._id || null;
+        let foundUser = null;
+
+        if (userId) {
+            foundUser = await User.findById(userId);
+        }
     try{
-        res.render("salons/new.ejs", { servicesCount: 0 });
+        res.render("salons/new.ejs", { servicesCount: 0 , foundUser});
     }
     catch(error){
         console.log(error)
@@ -42,6 +48,12 @@ router.get("/new",async(req,res)=>{
 
 
 router.post("/", async (req, res) => {
+                const userId = req.session.user?._id || null;
+        let foundUser = null;
+
+        if (userId) {
+            foundUser = await User.findById(userId);
+        }
     console.log("all data "+req.body)
     const { name, description, location, openingTime, closingTime, workingDays, serviceName, servicePrice, serviceDescription , staffName, staffSpeciality, yearsOfExperience} = req.body;
 
@@ -124,7 +136,7 @@ router.post("/", async (req, res) => {
         }
         // Render the salon details page
         res.render("salons/salon-details.ejs", {
-            foundSalon
+            foundSalon , foundUser
         });
     } catch (error) {
         console.log(error);
