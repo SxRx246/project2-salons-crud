@@ -1,42 +1,43 @@
-    <header class="site-navbar py-1" role="banner">
+<header class="site-navbar py-1" role="banner">
 
-      <div class="container-fluid">
-        <div class="row align-items-center">
+  <div class="container-fluid">
+    <div class="row align-items-center">
 
-          <div class="col-6 col-xl-2" data-aos="fade-down">
-            <h1 class="mb-0"><a href="index.html" class="text-black h2 mb-0">SalonEase</a></h1>
-          </div>
-          <div class="col-10 col-md-8 d-none d-xl-block" data-aos="fade-down">
-            <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+      <div class="col-6 col-xl-2" data-aos="fade-down">
+        <h1 class="mb-0"><a href="/salons" class="text-black h2 mb-0">SalonEase</a></h1>
+      </div>
+      <div class="col-10 col-md-8 d-none d-xl-block" data-aos="fade-down">
+        <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 
-              <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-                <li>
-                  <a href="/salons">Salons</a>
-                </li>
-                <li >
-                  <a href="/appointments">My Appointments</a>
-                </li>
-                <li><a href="/appointments/new">Book Online</a></li>
-                <% if (user){ %>
-                <li><a href="/auth/logout">Logout</a>
-                </li>
+          <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+            <li>
+              <a href="/salons">Salons</a>
+            </li>
+            <li>
+              <a href="/appointments">Appointments</a>
+            </li>
+            <li><a href="/appointments/new">Book Online</a></li>
+            <% if (user){ %>
+              <li><a href="/auth/logout">Logout</a>
+                <li><span>Welcome, <%= user.username %></span></li>
+              </li>
 
 
-                <%} else{ %>
+              <%} else{ %>
                 <li><a href="/auth/login">Login</a></li>
                 <li><a href="/auth/sign-up">Sign Up</a></li>
                 <%} %>
-              </ul>
-            </nav>
-          </div>
-
-          <div class="col-6 col-xl-2 text-right" data-aos="fade-down">
-            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#"
-                class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
-
-          </div>
-
-        </div>
+          </ul>
+        </nav>
       </div>
 
-    </header>
+      <div class="col-6 col-xl-2 text-right" data-aos="fade-down">
+        <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#"
+            class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+
+      </div>
+
+    </div>
+  </div>
+
+</header>

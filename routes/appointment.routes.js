@@ -216,17 +216,27 @@ router.get("/:id/:serviceID", async (req, res) => {
 
 router.get("/:appointmentID/:serviceID/deleteService", async (req, res) => {
     try {
-        // console.log("this is the salon id"+req.params.salonId)
+        // Find the appointment by its ID
+        const appointment = await Appointment.findById(req.params.appointmentID);
+        
+        // Check if the appointment exists
+        if (!appointment) {
+            return res.status(404).send("Appointment not found");
+        }
 
-        await Service.findByIdAndDelete(req.params.serviceID);
-        // await Service.deleteMany({ salon: req.params.id }); // Optionally delete services associated with the salon
+        // Remove the service from the services array
+        appointment.services.pull(req.params.serviceID);
+        
+        // Save the updated appointment
+        await appointment.save();
+
+        // Redirect to the appointment page
         res.redirect(`/appointments/${req.params.appointmentID}`);
-        // res.redirect(`/salons`);
     } catch (error) {
         console.log(error);
-        res.status(500).send("Error in deleting the service");
+        res.status(500).send("Error in deleting the service from appointment");
     }
-})
+});
 
 
 // router.post("/:id/note", async (req, res) => {

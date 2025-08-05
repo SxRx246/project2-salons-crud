@@ -153,7 +153,7 @@
             </div>
           </div>
 
-          <div class="row">
+        <div class="row justify-content-center mb-5">
             <% if (foundSalon.services && foundSalon.services.length> 0) { %>
               <% foundSalon.services.forEach(service=> { %>
 
@@ -212,7 +212,7 @@
               <h2 class="site-section-heading font-weight-light text-black text-center">Our Staffs</h2>
             </div>
           </div>
-          <div class="row">
+        <div class="row justify-content-center mb-5">
             <% if (foundSalon.staffs && foundSalon.staffs.length> 0) { %>
               <% foundSalon.staffs.forEach(staff=> { %>
                 <div class="col-md-6 col-lg-4 text-center mb-5" data-aos="fade-up">
@@ -263,9 +263,18 @@
                   <button type="submit" class="btn btn-black py-3 px-5">Delete Salon</button>
 
               </div>
-              <%} else{%>
-                   <p class="mb-0"><a href="/salons" class="btn btn-primary py-3 px-5 text-white">View All Salons</a></p>
-                <% } %>
+              <%}%>
+              
+        <div class="site-section">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <p class="mb-0"><a href="/salons" class="btn btn-primary py-3 px-5 text-white">View All
+                                Salons</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>                
 
           </div>
         </div>
@@ -288,6 +297,9 @@
 
 
   </div>
+
+      <%- include('../partials/footer.ejs') %>
+
 
   <script src="/styles/js/jquery-3.3.1.min.js"></script>
   <script src="/styles/js/jquery-migrate-3.0.1.min.js"></script>
