@@ -1,4 +1,4 @@
-![SalonEase - Book Your Appointment with Ease](https://ibb.co/wh0yLNm0)
+![SalonEase - Book Your Appointment with Ease](public/styles/images/website.png)
 
 # SalonEase
 
