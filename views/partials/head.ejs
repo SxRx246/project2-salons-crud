@@ -1,0 +1,62 @@
+  <head>
+    <title>SalonEase &mdash; Colorlib Website Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,700,900|Display+Playfair:200,300,400,700"> 
+    <link rel="stylesheet" href="/styles/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/styles/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/css/magnific-popup.css">
+    <link rel="stylesheet" href="/styles/css/jquery-ui.css">
+    <link rel="stylesheet" href="/styles/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/styles/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/styles/css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="/styles/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+
+
+    <link rel="stylesheet" href="/styles/css/aos.css">
+
+    <link rel="stylesheet" href="/styles/css/style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <script>
+        function addService() {
+            const serviceSection = document.getElementById('serviceSection');
+            const serviceDiv = document.createElement('div');
+
+            serviceDiv.innerHTML = `
+                <label class="text-black">Service Name:</label>
+                <input class="form-control" type="text" name="serviceName" required>
+                <label class="text-black">Service Price:</label>
+                <input class="form-control" type="number" name="servicePrice" required>
+                <label class="text-black">Description:</label>
+                <input class="form-control" type="text" name="serviceDescription" required>
+                <hr>
+                `;
+
+            serviceSection.appendChild(serviceDiv);
+        }
+
+        function addStaff() {
+            const staffSection = document.getElementById('staffSection');
+            const staffDiv = document.createElement('div');
+
+            staffDiv.innerHTML = `
+                <label class="text-black">Staff Name:</label>
+                <input class="form-control" type="text" name="staffName" required>
+                <label class="text-black">Staff Speciality:</label>
+                <input class="form-control" type="text" name="staffSpeciality" required>
+                <label class="text-black">yearsOfExperience:</label>
+                <input class="form-control" type="number" name="yearsOfExperience" required>
+                <hr>
+            `;
+
+            staffSection.appendChild(staffDiv);
+        }
+    </script>
+  </head>
