@@ -6,10 +6,12 @@
 
 SalonEase is a full-stack web application that facilitates appointment booking for salons. It features two types of users: normal users who can book appointments and admin users who can manage salons. Both user types have full CRUD (Create, Read, Update, Delete) capabilities, enabling them to manage appointments and salon details effectively.
 
+
 ## Getting started
 
 + Link to [Live Demo](https://salonswebsite.onrender.com)
 + Link to [GitHub Repository](https://github.com/SxRx246/project2-salons-crud)
+
 
 ## Attributions
 
@@ -19,6 +21,7 @@ SalonEase is a full-stack web application that facilitates appointment booking f
 
 
 + Icons: [CSS Icons Reference](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css)
+
 
 
 ## Technologies Used
@@ -32,6 +35,7 @@ SalonEase is a full-stack web application that facilitates appointment booking f
 **CSS & Bootstrap** Style the frontend and layout.
 
 **bcrypt & express-session** Used for password hashing and session-based login system.
+
 
 ## Next steps
 
@@ -53,6 +57,7 @@ SalonEase is a full-stack web application that facilitates appointment booking f
 ### Location Features
 - Display salons on Google Maps.
 - Filter/search salons by location or service type.
+
 
 
 ## Project Structure (Summary)
