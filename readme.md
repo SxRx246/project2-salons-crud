@@ -1,4 +1,5 @@
-![SalonEase - Book Your Appointment with Ease](https://ibb.co/wh0yLNm0)
+![SalonEase - Book Your Appointment with Ease](<img width="1902" height="886" alt="Screenshot 2025-08-06 043944" src="https://github.com/user-attachments/assets/1f557c55-ef11-4800-ac37-c60ec286266f" />
+)
 
 # SalonEase
 
