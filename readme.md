@@ -1,4 +1,4 @@
-![SalonEase - Book Your Appointment with Ease](/images/website.png)
+![SalonEase - Book Your Appointment with Ease](/styles/images/website.png)
 
 # SalonEase
 
